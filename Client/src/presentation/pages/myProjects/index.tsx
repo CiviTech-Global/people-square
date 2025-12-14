@@ -45,7 +45,6 @@ import {
   AlertBox,
   LoadingOverlay,
   LoadingSpinner,
-  ColorBar,
   InfoBox,
   InfoBoxTitle,
   InfoBoxText,
@@ -340,18 +339,16 @@ const MyProjectsPage = () => {
                 <ProjectTitle>{project.title}</ProjectTitle>
                 <ProjectDescription>{project.description}</ProjectDescription>
                 <ChipsContainer>
-                  <Chip
-                    color={getInvestmentStatusColor(project.investmentStatus)}
-                  >
+                  <Chip>
                     {getInvestmentStatusLabel(project.investmentStatus)}
                   </Chip>
                   {project.isRegistered && (
-                    <Chip color="linear-gradient(135deg, rgba(45, 158, 73, 0.8), rgba(45, 158, 73, 0.6))">
+                    <Chip>
                       Registered
                     </Chip>
                   )}
                   {project.files && project.files.length > 0 && (
-                    <Chip color="linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))">
+                    <Chip>
                       <FileText size={14} />
                       {project.files.length} file
                       {project.files.length > 1 ? "s" : ""}
@@ -736,8 +733,6 @@ const MyProjectsPage = () => {
         showActions={true}
       />
 
-      {/* Color Bar */}
-      <ColorBar />
     </MyProjectsContainer>
   );
 };

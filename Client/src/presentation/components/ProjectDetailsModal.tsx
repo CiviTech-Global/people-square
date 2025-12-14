@@ -83,11 +83,11 @@ export const ProjectDetailsModal = ({
           <div>
             <ModalTitle>{project.title}</ModalTitle>
             <ModalChipContainer>
-              <ModalChip color={getInvestmentStatusColor(project.investmentStatus)}>
+              <ModalChip>
                 {getInvestmentStatusLabel(project.investmentStatus)}
               </ModalChip>
               {project.isRegistered && (
-                <ModalChip color="linear-gradient(135deg, rgba(45, 158, 73, 0.8), rgba(45, 158, 73, 0.6))">
+                <ModalChip>
                   Registered
                 </ModalChip>
               )}
@@ -177,7 +177,7 @@ export const ProjectDetailsModal = ({
               <div>
                 <FilesContainer>
                   <SectionTitle>Attached Files</SectionTitle>
-                  <ModalChip color="var(--color-gray-light)">
+                  <ModalChip>
                     {project.files.length} file{project.files.length > 1 ? "s" : ""}
                   </ModalChip>
                 </FilesContainer>

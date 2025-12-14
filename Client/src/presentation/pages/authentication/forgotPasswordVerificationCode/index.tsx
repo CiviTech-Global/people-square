@@ -75,7 +75,6 @@ const EmailVerification = () => {
         </S.ResendText>
       </S.AuthCard>
 
-      <S.ColorBar />
     </S.Screen>
   );
 };

@@ -99,7 +99,6 @@ const SetNewPassword = () => {
         </S.AuthForm>
       </S.AuthCard>
 
-      <S.ColorBar />
     </S.Screen>
   );
 };

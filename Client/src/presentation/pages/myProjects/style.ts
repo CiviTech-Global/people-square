@@ -87,7 +87,7 @@ export const NewProjectButton = styled.button`
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -103,7 +103,7 @@ export const NewProjectButton = styled.button`
     background: var(--color-darker);
     transform: translateY(-1px);
     box-shadow: var(--shadow-lg);
-    
+
     &::before {
       width: 300px;
       height: 300px;
@@ -169,7 +169,7 @@ export const ProjectCard = styled.div`
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -185,7 +185,7 @@ export const ProjectCard = styled.div`
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
     border-color: var(--color-gray);
-    
+
     &::before {
       transform: scaleX(1);
     }
@@ -234,19 +234,21 @@ export const Chip = styled.span<{ color?: string }>`
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
-  background: ${(props) =>
-    props.color ? props.color : "var(--color-gray-light)"};
-  color: ${(props) =>
-    props.color ? "white" : "var(--color-dark)"};
-  border-radius: var(--radius-md);
+  background: var(--color-gray-light);
+  color: var(--color-dark);
+  border-radius: var(--radius-sm);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   line-height: 1.4;
   transition: all var(--transition-fast);
-  border: 1px solid transparent;
+  border: 1px solid var(--color-gray-light);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
   &:hover {
+    background: var(--color-gray);
+    color: var(--color-white);
+    border-color: var(--color-gray);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
   }
@@ -407,7 +409,7 @@ export const ModalContent = styled.div`
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -532,15 +534,19 @@ export const FormLabel = styled.label`
   line-height: 1.4;
 `;
 
-export const FormInput = styled.input<{ hasError?: boolean; hasSuccess?: boolean }>`
+export const FormInput = styled.input<{
+  hasError?: boolean;
+  hasSuccess?: boolean;
+}>`
   padding: var(--spacing-md) var(--spacing-lg);
   background: var(--color-white);
-  border: 1px solid ${(props) => 
-    props.hasError 
-      ? 'var(--color-error)' 
-      : props.hasSuccess 
-        ? 'var(--color-success)' 
-        : 'var(--color-gray-light)'};
+  border: 1px solid
+    ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-gray-light)"};
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   color: var(--color-dark);
@@ -556,28 +562,29 @@ export const FormInput = styled.input<{ hasError?: boolean; hasSuccess?: boolean
   }
 
   &:hover:not(:disabled):not(:focus) {
-    border-color: ${(props) => 
-      props.hasError 
-        ? 'var(--color-error)' 
-        : props.hasSuccess 
-          ? 'var(--color-success)' 
-          : 'var(--color-gray)'};
+    border-color: ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-gray)"};
   }
 
   &:focus {
     outline: none;
-    border-color: ${(props) => 
-      props.hasError 
-        ? 'var(--color-error)' 
-        : props.hasSuccess 
-          ? 'var(--color-success)' 
-          : 'var(--color-dark)'};
-    box-shadow: 0 0 0 3px ${(props) => 
-      props.hasError 
-        ? 'rgba(230, 57, 70, 0.1)' 
-        : props.hasSuccess 
-          ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(26, 26, 26, 0.1)'};
+    border-color: ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-dark)"};
+    box-shadow: 0 0 0 3px
+      ${(props) =>
+        props.hasError
+          ? "rgba(230, 57, 70, 0.1)"
+          : props.hasSuccess
+          ? "rgba(45, 158, 73, 0.1)"
+          : "rgba(26, 26, 26, 0.1)"};
     background: var(--color-white);
   }
 
@@ -595,22 +602,26 @@ export const FormInput = styled.input<{ hasError?: boolean; hasSuccess?: boolean
   &.error {
     border-color: var(--color-error);
     background: var(--color-error-bg);
-    
+
     &:focus {
       box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
     }
   }
 `;
 
-export const FormTextarea = styled.textarea<{ hasError?: boolean; hasSuccess?: boolean }>`
+export const FormTextarea = styled.textarea<{
+  hasError?: boolean;
+  hasSuccess?: boolean;
+}>`
   padding: var(--spacing-md) var(--spacing-lg);
   background: var(--color-white);
-  border: 1px solid ${(props) => 
-    props.hasError 
-      ? 'var(--color-error)' 
-      : props.hasSuccess 
-        ? 'var(--color-success)' 
-        : 'var(--color-gray-light)'};
+  border: 1px solid
+    ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-gray-light)"};
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   color: var(--color-dark);
@@ -650,28 +661,29 @@ export const FormTextarea = styled.textarea<{ hasError?: boolean; hasSuccess?: b
   }
 
   &:hover:not(:disabled):not(:focus) {
-    border-color: ${(props) => 
-      props.hasError 
-        ? 'var(--color-error)' 
-        : props.hasSuccess 
-          ? 'var(--color-success)' 
-          : 'var(--color-gray)'};
+    border-color: ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-gray)"};
   }
 
   &:focus {
     outline: none;
-    border-color: ${(props) => 
-      props.hasError 
-        ? 'var(--color-error)' 
-        : props.hasSuccess 
-          ? 'var(--color-success)' 
-          : 'var(--color-dark)'};
-    box-shadow: 0 0 0 3px ${(props) => 
-      props.hasError 
-        ? 'rgba(230, 57, 70, 0.1)' 
-        : props.hasSuccess 
-          ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(26, 26, 26, 0.1)'};
+    border-color: ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-dark)"};
+    box-shadow: 0 0 0 3px
+      ${(props) =>
+        props.hasError
+          ? "rgba(230, 57, 70, 0.1)"
+          : props.hasSuccess
+          ? "rgba(45, 158, 73, 0.1)"
+          : "rgba(26, 26, 26, 0.1)"};
     background: var(--color-white);
   }
 
@@ -689,22 +701,26 @@ export const FormTextarea = styled.textarea<{ hasError?: boolean; hasSuccess?: b
   &.error {
     border-color: var(--color-error);
     background: var(--color-error-bg);
-    
+
     &:focus {
       box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
     }
   }
 `;
 
-export const FormSelect = styled.select<{ hasError?: boolean; hasSuccess?: boolean }>`
+export const FormSelect = styled.select<{
+  hasError?: boolean;
+  hasSuccess?: boolean;
+}>`
   padding: var(--spacing-md) var(--spacing-lg);
   background: var(--color-white);
-  border: 1px solid ${(props) => 
-    props.hasError 
-      ? 'var(--color-error)' 
-      : props.hasSuccess 
-        ? 'var(--color-success)' 
-        : 'var(--color-gray-light)'};
+  border: 1px solid
+    ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-gray-light)"};
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   color: var(--color-dark);
@@ -722,29 +738,30 @@ export const FormSelect = styled.select<{ hasError?: boolean; hasSuccess?: boole
   line-height: 1.5;
 
   &:hover:not(:disabled):not(:focus) {
-    border-color: ${(props) => 
-      props.hasError 
-        ? 'var(--color-error)' 
-        : props.hasSuccess 
-          ? 'var(--color-success)' 
-          : 'var(--color-gray)'};
+    border-color: ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-gray)"};
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%231a1a1a' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
   }
 
   &:focus {
     outline: none;
-    border-color: ${(props) => 
-      props.hasError 
-        ? 'var(--color-error)' 
-        : props.hasSuccess 
-          ? 'var(--color-success)' 
-          : 'var(--color-dark)'};
-    box-shadow: 0 0 0 3px ${(props) => 
-      props.hasError 
-        ? 'rgba(230, 57, 70, 0.1)' 
-        : props.hasSuccess 
-          ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(26, 26, 26, 0.1)'};
+    border-color: ${(props) =>
+      props.hasError
+        ? "var(--color-error)"
+        : props.hasSuccess
+        ? "var(--color-success)"
+        : "var(--color-dark)"};
+    box-shadow: 0 0 0 3px
+      ${(props) =>
+        props.hasError
+          ? "rgba(230, 57, 70, 0.1)"
+          : props.hasSuccess
+          ? "rgba(45, 158, 73, 0.1)"
+          : "rgba(26, 26, 26, 0.1)"};
     background-color: var(--color-white);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%231a1a1a' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
   }
@@ -821,9 +838,7 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
   min-height: 180px;
   border: 1px dashed
     ${(props) =>
-      props.isDragActive
-        ? "var(--color-dark)"
-        : "var(--color-gray-light)"};
+      props.isDragActive ? "var(--color-dark)" : "var(--color-gray-light)"};
   border-radius: var(--radius-md);
   background: var(--color-light);
   cursor: pointer;
@@ -834,13 +849,18 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(26, 26, 26, 0.05), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(26, 26, 26, 0.05),
+      transparent
+    );
     transition: left 0.5s;
   }
 
@@ -849,7 +869,7 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
     background: var(--color-light);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
-    
+
     &::before {
       left: 100%;
     }
@@ -1054,7 +1074,7 @@ export const SubmitButton = styled.button`
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1070,7 +1090,7 @@ export const SubmitButton = styled.button`
     background: var(--color-darker);
     transform: translateY(-1px);
     box-shadow: var(--shadow-lg);
-    
+
     &::before {
       width: 300px;
       height: 300px;
@@ -1103,7 +1123,7 @@ export const SubmitButton = styled.button`
 `;
 
 interface AlertBoxProps {
-  type?: 'error' | 'success';
+  type?: "error" | "success";
 }
 
 export const AlertBox = styled.div<AlertBoxProps>`
@@ -1115,41 +1135,42 @@ export const AlertBox = styled.div<AlertBoxProps>`
   margin-bottom: var(--spacing-xl);
   border-radius: var(--radius-md);
   background: ${(props) =>
-    props.type === 'error'
-      ? 'var(--color-error-bg)'
-      : props.type === 'success'
-        ? 'var(--color-success-bg)'
-        : 'var(--color-white)'};
-  border: 1px solid ${(props) =>
-    props.type === 'error'
-      ? 'var(--color-error-border)'
-      : props.type === 'success'
-        ? 'var(--color-success-border)'
-        : 'var(--color-gray-light)'};
+    props.type === "error"
+      ? "var(--color-error-bg)"
+      : props.type === "success"
+      ? "var(--color-success-bg)"
+      : "var(--color-white)"};
+  border: 1px solid
+    ${(props) =>
+      props.type === "error"
+        ? "var(--color-error-border)"
+        : props.type === "success"
+        ? "var(--color-success-border)"
+        : "var(--color-gray-light)"};
   color: ${(props) =>
-    props.type === 'error'
-      ? 'var(--color-error)'
-      : props.type === 'success'
-        ? 'var(--color-success)'
-        : 'var(--color-dark)'};
+    props.type === "error"
+      ? "var(--color-error)"
+      : props.type === "success"
+      ? "var(--color-success)"
+      : "var(--color-dark)"};
   animation: slideDown 0.3s ease-out;
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
     width: 4px;
     background: ${(props) =>
-      props.type === 'error'
-        ? 'var(--color-error)'
-        : props.type === 'success'
-          ? 'var(--color-success)'
-          : 'var(--color-dark)'};
+      props.type === "error"
+        ? "var(--color-error)"
+        : props.type === "success"
+        ? "var(--color-success)"
+        : "var(--color-dark)"};
   }
 
   @keyframes slideDown {

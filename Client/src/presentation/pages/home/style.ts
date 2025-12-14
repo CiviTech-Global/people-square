@@ -443,18 +443,21 @@ export const Chip = styled.span<{ color?: string }>`
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
-  background: ${(props) =>
-    props.color ? props.color : "var(--color-gray-light)"};
-  color: ${(props) => (props.color ? "white" : "var(--color-dark)")};
-  border-radius: var(--radius-md);
+  background: var(--color-gray-light);
+  color: var(--color-dark);
+  border-radius: var(--radius-sm);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
-  transition: all var(--transition-fast);
-  border: 1px solid transparent;
   line-height: 1.4;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-gray-light);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
   &:hover {
+    background: var(--color-gray);
+    color: var(--color-white);
+    border-color: var(--color-gray);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
   }

@@ -142,12 +142,23 @@ export const ModalChip = styled.span<{ color?: string }>`
   display: inline-flex;
   align-items: center;
   padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-white);
-  background: ${(props) => props.color || "var(--color-gray-light)"};
+  color: var(--color-dark);
+  background: var(--color-gray-light);
+  border: 1px solid var(--color-gray-light);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   line-height: 1.4;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background: var(--color-gray);
+    color: var(--color-white);
+    border-color: var(--color-gray);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
 `;
 
 export const ModalBody = styled.div`

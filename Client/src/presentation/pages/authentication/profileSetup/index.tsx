@@ -137,7 +137,6 @@ const ProfileSetup = () => {
         <S.SkipBtn onClick={() => navigate('/home')}>Skip for now</S.SkipBtn>
       </S.AuthCard>
 
-      <S.ColorBar />
     </S.Screen>
   );
 };

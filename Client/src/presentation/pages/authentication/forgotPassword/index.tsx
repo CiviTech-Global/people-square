@@ -80,7 +80,6 @@ const ForgotPassword = () => {
         </S.AuthSwitch>
       </S.AuthCard>
 
-      <S.ColorBar />
     </S.Screen>
   );
 };

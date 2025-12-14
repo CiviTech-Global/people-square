@@ -111,7 +111,6 @@ const Login = () => {
         </S.AuthSwitch>
       </S.AuthCard>
 
-      <S.ColorBar />
     </S.Screen>
   );
 };

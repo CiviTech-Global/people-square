@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sidebar, GlassAppBar } from "../../components";
 import Profile from "./profile";
-import { SettingsContainer, ContentWrapper, TabContainer, Tab, TabPanel, ColorBar } from "./style";
+import { SettingsContainer, ContentWrapper, TabContainer, Tab, TabPanel } from "./style";
 
 const Settings = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -22,9 +22,6 @@ const Settings = () => {
           <Profile />
         </TabPanel>
       </ContentWrapper>
-
-      {/* Color Bar */}
-      <ColorBar />
     </SettingsContainer>
   );
 };
