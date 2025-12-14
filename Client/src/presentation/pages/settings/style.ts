@@ -55,16 +55,16 @@ export const Tab = styled.button<{ active: boolean }>`
   background: transparent;
   border: none;
   border-bottom: 3px solid
-    ${(props) => (props.active ? "var(--color-blue)" : "transparent")};
+    ${(props) => (props.active ? "var(--color-dark)" : "transparent")};
   color: ${(props) =>
-    props.active ? "var(--color-blue)" : "var(--color-gray)"};
+    props.active ? "var(--color-dark)" : "var(--color-gray)"};
   font-weight: ${(props) => (props.active ? "600" : "500")};
   font-size: 1rem;
   cursor: pointer;
   transition: all var(--transition-fast);
 
   &:hover {
-    color: var(--color-blue);
+    color: var(--color-dark);
   }
 `;
 

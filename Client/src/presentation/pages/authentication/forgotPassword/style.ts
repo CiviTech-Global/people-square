@@ -94,7 +94,7 @@ export const AuthSwitch = styled.p`
   button {
     background: none;
     border: none;
-    color: var(--color-blue);
+    color: var(--color-dark);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;

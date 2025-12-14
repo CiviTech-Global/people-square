@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Lock, CheckCircle } from 'lucide-react';
 import { Input, Button, Logo } from '../../../components';
-import { AuthService } from '../../../../services/api/auth.service';
+import { AuthService } from '../../../../infrastructure/api/auth.service';
 import * as S from './style';
 
 const SetNewPassword = () => {

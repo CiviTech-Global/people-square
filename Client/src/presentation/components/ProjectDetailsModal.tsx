@@ -23,8 +23,8 @@ import {
 } from "@mui/icons-material";
 import { colors } from "../themes";
 import { FilePreviewWidget } from "./FilePreviewWidget";
-import type { Project, ProjectFile } from "../../services/api/project.service";
-import { ProjectService } from "../../services/api/project.service";
+import type { Project, ProjectFile } from "../../infrastructure/api/project.service";
+import { ProjectService } from "../../infrastructure/api/project.service";
 
 interface ProjectDetailsModalProps {
   open: boolean;

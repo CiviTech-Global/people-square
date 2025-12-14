@@ -5,7 +5,7 @@ import {
   ProjectService,
   type Project,
   type CreateProjectData,
-} from "../../../services/api/project.service";
+} from "../../../infrastructure/api/project.service";
 import {
   MyProjectsContainer,
   ContentWrapper,

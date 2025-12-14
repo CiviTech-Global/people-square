@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 import { Input, Button, Logo, SocialButton } from '../../../components';
-import { useAuth } from '../../../../context/AuthContext';
-import { AuthService } from '../../../../services/api/auth.service';
+import { useAuth } from '../../../../application/context/AuthContext';
+import { AuthService } from '../../../../infrastructure/api/auth.service';
 import * as S from './style';
 
 const Login = () => {

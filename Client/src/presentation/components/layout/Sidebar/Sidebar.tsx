@@ -56,7 +56,7 @@ const Sidebar = ({ open = true }: SidebarProps) => {
           return (
             <S.MenuItem key={item.text}>
               <S.MenuButton
-                isActive={isActive}
+                $isActive={isActive}
                 onClick={() => handleNavigation(item.path)}
                 title={!open ? item.text : undefined}
               >

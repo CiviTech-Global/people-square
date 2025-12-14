@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./application/context/AuthContext";
 import { ProtectedRoute, PublicRoute } from "./presentation/components";
 import WelcomePage from "./presentation/pages/authentication/welcomePage";
 import Login from "./presentation/pages/authentication/login";

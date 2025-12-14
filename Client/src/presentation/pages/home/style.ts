@@ -219,7 +219,7 @@ export const ProjectCard = styled.div`
   &:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
-    border-color: var(--color-blue);
+    border-color: var(--color-gray);
 
     &::before {
       transform: scaleX(1);
@@ -274,8 +274,8 @@ export const Chip = styled.span<{ color?: string }>`
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
   background: ${(props) =>
-    props.color ? props.color : "rgba(74, 144, 217, 0.1)"};
-  color: ${(props) => (props.color ? "white" : "var(--color-blue)")};
+    props.color ? props.color : "var(--color-gray-light)"};
+  color: ${(props) => (props.color ? "white" : "var(--color-dark)")};
   border-radius: var(--radius-md);
   font-size: 0.8rem;
   font-weight: 500;
@@ -498,14 +498,14 @@ export const ProfileMenuItem = styled.button`
     top: 0;
     bottom: 0;
     width: 3px;
-    background: var(--color-blue);
+    background: var(--color-dark);
     transform: scaleY(0);
     transition: transform var(--transition-fast);
   }
 
   &:hover {
     background: var(--color-gray-light);
-    color: var(--color-blue);
+    color: var(--color-dark);
 
     &::before {
       transform: scaleY(1);
@@ -517,16 +517,20 @@ export const ProfileMenuItem = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-dark);
     outline-offset: -2px;
   }
 
   svg {
     width: 20px;
     height: 20px;
-    color: var(--color-blue);
+    color: var(--color-gray);
     transition: transform var(--transition-fast);
     flex-shrink: 0;
+  }
+
+  &:hover svg {
+    color: var(--color-dark);
   }
 `;
 

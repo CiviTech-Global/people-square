@@ -43,8 +43,15 @@ export const BackButton = styled.button`
 `;
 
 export const AuthHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   margin-bottom: var(--spacing-xl);
+
+  > svg {
+    margin: 0 auto;
+  }
 
   h2 {
     font-family: var(--font-display);
@@ -81,7 +88,7 @@ export const ErrorAlert = styled.div`
 export const ForgotLink = styled.button`
   background: none;
   border: none;
-  color: var(--color-blue);
+  color: var(--color-dark);
   font-size: 0.875rem;
   cursor: pointer;
   text-align: right;
@@ -130,7 +137,7 @@ export const AuthSwitch = styled.p`
   button {
     background: none;
     border: none;
-    color: var(--color-blue);
+    color: var(--color-dark);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;

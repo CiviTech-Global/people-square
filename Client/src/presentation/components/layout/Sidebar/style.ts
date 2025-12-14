@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface SidebarProps {
   open?: boolean;
 }
 
 export const SidebarContainer = styled.div<SidebarProps>`
-  width: ${(props) => (props.open ? '260px' : '80px')};
+  width: ${(props) => (props.open ? "260px" : "80px")};
   height: 100vh;
   position: fixed;
   left: 0;
@@ -26,18 +26,23 @@ export const LogoSection = styled.div<SidebarProps>`
   min-height: 72px;
   display: flex;
   align-items: center;
-  justify-content: ${(props) => (props.open ? 'flex-start' : 'center')};
+  justify-content: ${(props) => (props.open ? "flex-start" : "center")};
   gap: var(--spacing-md);
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-gray-light), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gray-light),
+      transparent
+    );
   }
 `;
 
@@ -48,7 +53,7 @@ interface LogoTextProps {
 export const LogoText = styled.h1<LogoTextProps>`
   color: var(--color-dark);
   font-weight: 700;
-  font-size: ${(props) => (props.open ? '1.25rem' : '0.875rem')};
+  font-size: ${(props) => (props.open ? "1.25rem" : "0.875rem")};
   margin: 0;
   transition: font-size var(--transition-default);
   letter-spacing: -0.02em;
@@ -93,7 +98,7 @@ export const MenuItem = styled.li`
 `;
 
 interface MenuButtonProps {
-  isActive?: boolean;
+  $isActive?: boolean;
 }
 
 export const MenuButton = styled.button<MenuButtonProps>`
@@ -104,32 +109,35 @@ export const MenuButton = styled.button<MenuButtonProps>`
   margin: 0 var(--spacing-xs);
   border: none;
   border-radius: var(--radius-md);
-  background: ${(props) => (props.isActive ? 'rgba(74, 144, 217, 0.1)' : 'transparent')};
-  color: ${(props) => (props.isActive ? 'var(--color-blue)' : 'var(--color-gray)')};
+  background: ${(props) =>
+    props.$isActive ? "var(--color-light)" : "transparent"};
+  color: ${(props) =>
+    props.$isActive ? "var(--color-dark)" : "var(--color-gray)"};
   cursor: pointer;
   transition: all var(--transition-fast);
   position: relative;
-  font-weight: ${(props) => (props.isActive ? 600 : 500)};
+  font-weight: ${(props) => (props.$isActive ? 600 : 500)};
   font-size: 0.95rem;
   width: calc(100% - var(--spacing-xs) * 2);
   text-align: left;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
     width: 3px;
-    height: ${(props) => (props.isActive ? '24px' : '0')};
-    background: var(--color-blue);
+    height: ${(props) => (props.$isActive ? "24px" : "0")};
+    background: var(--color-dark);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     transition: height var(--transition-fast);
   }
 
   &:hover {
-    background: ${(props) => (props.isActive ? 'rgba(74, 144, 217, 0.15)' : 'var(--color-light)')};
-    color: var(--color-blue);
+    background: ${(props) =>
+      props.$isActive ? "var(--color-gray-light)" : "var(--color-light)"};
+    color: var(--color-dark);
     transform: translateX(2px);
   }
 
@@ -138,7 +146,7 @@ export const MenuButton = styled.button<MenuButtonProps>`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-dark);
     outline-offset: 2px;
   }
 `;
@@ -175,10 +183,10 @@ export const ActiveIndicator = styled.div`
   transform: translateY(-50%);
   width: 6px;
   height: 6px;
-  background: var(--color-blue);
+  background: var(--color-dark);
   border-radius: var(--radius-full);
   animation: fadeIn 0.3s ease-out;
-  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.2);
+  box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.15);
 
   @keyframes fadeIn {
     from {
@@ -201,13 +209,18 @@ export const SidebarFooter = styled.div`
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-gray-light), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gray-light),
+      transparent
+    );
   }
 `;
 
@@ -220,7 +233,7 @@ export const FooterText = styled.p<FooterTextProps>`
   color: var(--color-gray);
   margin: 0;
   text-align: center;
-  white-space: ${(props) => (props.open ? 'normal' : 'nowrap')};
+  white-space: ${(props) => (props.open ? "normal" : "nowrap")};
   overflow: hidden;
   text-overflow: ellipsis;
 `;

@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { LogOut, User, Plus, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar, GlassAppBar, ProjectDetailsModal } from "../../components";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../application/context/AuthContext";
 import {
   ProjectService,
   type Project,
-} from "../../../services/api/project.service";
+} from "../../../infrastructure/api/project.service";
 import {
   HomeContainer,
   ContentWrapper,

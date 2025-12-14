@@ -1,32 +1,32 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface StyledButtonProps {
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "outline";
+  size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
 }
 
 const getPadding = (size?: string) => {
   switch (size) {
-    case 'sm':
-      return 'var(--spacing-sm) var(--spacing-md)';
-    case 'lg':
-      return 'var(--spacing-md) var(--spacing-xl)';
-    case 'md':
+    case "sm":
+      return "var(--spacing-sm) var(--spacing-md)";
+    case "lg":
+      return "var(--spacing-md) var(--spacing-xl)";
+    case "md":
     default:
-      return 'var(--spacing-md) var(--spacing-lg)';
+      return "var(--spacing-md) var(--spacing-lg)";
   }
 };
 
 const getFontSize = (size?: string) => {
   switch (size) {
-    case 'sm':
-      return '0.875rem';
-    case 'lg':
-      return '1.125rem';
-    case 'md':
+    case "sm":
+      return "0.875rem";
+    case "lg":
+      return "1.125rem";
+    case "md":
     default:
-      return '0.95rem';
+      return "0.95rem";
   }
 };
 
@@ -36,11 +36,10 @@ export const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   gap: var(--spacing-sm);
   padding: ${(props) => getPadding(props.size)};
-  width: ${(props) => (props.fullWidth ? '100%' : 'auto')};
+  width: ${(props) => (props.fullWidth ? "100%" : "auto")};
   font-size: ${(props) => getFontSize(props.size)};
   font-weight: 600;
   font-family: var(--font-body);
-  border: 2px solid transparent;
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -50,14 +49,14 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   ${(props) => {
     switch (props.variant) {
-      case 'secondary':
+      case "secondary":
         return `
           background: var(--color-white);
           color: var(--color-dark);
-          border-color: var(--color-gray-light);
+          border: 1px solid var(--color-gray-light);
 
           &:hover:not(:disabled) {
-            background: var(--color-light);
+            background: var(--color-gray-light);
             border-color: var(--color-gray);
             transform: translateY(-1px);
             box-shadow: var(--shadow-sm);
@@ -67,14 +66,15 @@ export const StyledButton = styled.button<StyledButtonProps>`
             transform: translateY(0);
           }
         `;
-      case 'outline':
+      case "outline":
         return `
-          background: transparent;
-          color: var(--color-blue);
-          border-color: var(--color-blue);
+          background: var(--color-white);
+          color: var(--color-dark);
+          border: 1px solid var(--color-gray-light);
 
           &:hover:not(:disabled) {
-            background: rgba(74, 144, 217, 0.05);
+            background: var(--color-gray-light);
+            border-color: var(--color-gray);
             transform: translateY(-1px);
             box-shadow: var(--shadow-sm);
           }
@@ -83,12 +83,12 @@ export const StyledButton = styled.button<StyledButtonProps>`
             transform: translateY(0);
           }
         `;
-      case 'primary':
+      case "primary":
       default:
         return `
           background: var(--color-dark);
           color: var(--color-white);
-          border-color: var(--color-dark);
+          border: 2px solid var(--color-dark);
 
           &::before {
             content: '';
@@ -143,7 +143,9 @@ export const StyledButton = styled.button<StyledButtonProps>`
   @media (max-width: 480px) {
     padding: ${(props) => {
       const padding = getPadding(props.size);
-      return padding.replace(/var\(--spacing-xl\)/g, 'var(--spacing-lg)').replace(/var\(--spacing-lg\)/g, 'var(--spacing-md)');
+      return padding
+        .replace(/var\(--spacing-xl\)/g, "var(--spacing-lg)")
+        .replace(/var\(--spacing-lg\)/g, "var(--spacing-md)");
     }};
   }
 `;
@@ -177,4 +179,3 @@ export const Spinner = styled.div`
     }
   }
 `;
-

@@ -43,8 +43,15 @@ export const BackButton = styled.button`
 `;
 
 export const AuthHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   margin-bottom: var(--spacing-xl);
+
+  > svg {
+    margin: 0 auto;
+  }
 
   h2 {
     font-family: var(--font-display);
@@ -90,7 +97,7 @@ export const TermsCheck = styled.div`
     width: 18px;
     height: 18px;
     margin-top: 2px;
-    accent-color: var(--color-blue);
+    accent-color: var(--color-dark);
     cursor: pointer;
   }
 
@@ -99,7 +106,7 @@ export const TermsCheck = styled.div`
   }
 
   a {
-    color: var(--color-blue);
+    color: var(--color-dark);
     text-decoration: none;
 
     &:hover {
@@ -144,7 +151,7 @@ export const AuthSwitch = styled.p`
   button {
     background: none;
     border: none;
-    color: var(--color-blue);
+    color: var(--color-dark);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;

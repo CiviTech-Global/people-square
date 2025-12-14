@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Screen = styled.div`
   width: 100%;
@@ -24,7 +24,13 @@ export const LandingContent = styled.div`
 `;
 
 export const LogoContainer = styled.div`
-  margin-bottom: var(--spacing-3xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > svg {
+    margin: 0 auto;
+  }
 `;
 
 export const BrandName = styled.h1`
@@ -79,21 +85,21 @@ export const QuadrantDecoration = styled.div`
 `;
 
 interface QuadProps {
-  quadColor?: 'red' | 'yellow' | 'green' | 'blue';
+  quadColor?: "red" | "yellow" | "green" | "blue";
 }
 
 const getQuadColor = (color?: string) => {
   switch (color) {
-    case 'red':
-      return '#E63946';
-    case 'yellow':
-      return '#F4B942';
-    case 'green':
-      return '#2D9E49';
-    case 'blue':
-      return '#4A90D9';
+    case "red":
+      return "#E63946";
+    case "yellow":
+      return "#F4B942";
+    case "green":
+      return "#2D9E49";
+    case "blue":
+      return "#4A90D9";
     default:
-      return '#6b7280';
+      return "#6b7280";
   }
 };
 

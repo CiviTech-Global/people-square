@@ -125,7 +125,7 @@ export const ResendText = styled.p`
   button {
     background: none;
     border: none;
-    color: var(--color-blue);
+    color: var(--color-dark);
     font-weight: 600;
     cursor: pointer;
 

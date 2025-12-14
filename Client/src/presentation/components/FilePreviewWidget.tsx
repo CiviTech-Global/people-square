@@ -18,7 +18,7 @@ import {
   Visibility as ViewIcon,
 } from "@mui/icons-material";
 import { colors } from "../themes";
-import type { ProjectFile } from "../../services/api/project.service";
+import type { ProjectFile } from "../../infrastructure/api/project.service";
 
 interface FilePreviewWidgetProps {
   file: ProjectFile;

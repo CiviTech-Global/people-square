@@ -184,9 +184,7 @@ export class ProjectService {
     return response.data;
   }
 
-  public static async uploadFile(
-    file: File
-  ): Promise<{
+  public static async uploadFile(file: File): Promise<{
     success: boolean;
     message: string;
     data: { filename: string; url: string; size: number; mimetype: string };
@@ -206,10 +204,16 @@ export class ProjectService {
     await apiClient.delete(`/api/projects/upload/${filename}`);
   }
 
-  public static async downloadFile(fileId: string, originalName: string): Promise<void> {
-    const response = await apiClient.get(`/api/projects/file/${fileId}/download`, {
-      responseType: "blob",
-    });
+  public static async downloadFile(
+    fileId: string,
+    originalName: string
+  ): Promise<void> {
+    const response = await apiClient.get(
+      `/api/projects/file/${fileId}/download`,
+      {
+        responseType: "blob",
+      }
+    );
 
     // Create download link
     const url = window.URL.createObjectURL(new Blob([response.data]));

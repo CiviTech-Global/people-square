@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Edit, Save, X, User, Mail, Badge, Calendar } from "lucide-react";
-import { useAuth } from "../../../../context/AuthContext";
-import { UserService } from "../../../../services/api/user.service";
+import { useAuth } from "../../../../application/context/AuthContext";
+import { UserService } from "../../../../infrastructure/api/user.service";
 import {
   ProfileContainer,
   ProfileCard,

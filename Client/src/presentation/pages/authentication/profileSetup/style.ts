@@ -110,7 +110,7 @@ export const AvatarPlaceholder = styled.div`
 export const AvatarBtn = styled.button`
   background: none;
   border: none;
-  color: var(--color-blue);
+  color: var(--color-dark);
   font-weight: 600;
   cursor: pointer;
   font-size: 0.875rem;
@@ -178,7 +178,7 @@ export const RoleCard = styled.button<RoleCardProps>`
   ${(props) =>
     props.isSelected &&
     `
-    box-shadow: 0 0 0 4px rgba(${props.accentColor || 'var(--color-blue)'}, 0.1);
+    box-shadow: 0 0 0 4px rgba(${props.accentColor || '26, 26, 26'}, 0.1);
   `}
 `;
 

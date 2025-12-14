@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import { AuthService } from "../services/api/auth.service";
+import { AuthService } from "../../infrastructure/api/auth.service";
 
 interface User {
   id: string;
@@ -80,3 +80,4 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
+

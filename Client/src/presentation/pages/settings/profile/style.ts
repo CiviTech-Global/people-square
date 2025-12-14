@@ -116,7 +116,7 @@ export const UserName = styled.h2`
 export const RoleBadge = styled.div`
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-md);
-  background: var(--color-blue);
+  background: var(--color-dark);
   color: white;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -188,7 +188,7 @@ export const SectionTitle = styled.h3`
   svg {
     width: 20px;
     height: 20px;
-    color: var(--color-blue);
+    color: var(--color-dark);
   }
 `;
 
@@ -268,13 +268,13 @@ export const FieldInput = styled.input<{ hasError?: boolean; hasSuccess?: boolea
         ? 'var(--color-error)' 
         : props.hasSuccess 
           ? 'var(--color-success)' 
-          : 'var(--color-blue)'};
+          : 'var(--color-dark)'};
     box-shadow: 0 0 0 3px ${(props) => 
       props.hasError 
         ? 'rgba(230, 57, 70, 0.1)' 
         : props.hasSuccess 
           ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(74, 144, 217, 0.1)'};
+          : 'rgba(26, 26, 26, 0.1)'};
     background: var(--color-white);
   }
 

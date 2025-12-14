@@ -184,7 +184,7 @@ export const ProjectCard = styled.div`
   &:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
-    border-color: var(--color-blue);
+    border-color: var(--color-gray);
     
     &::before {
       transform: scaleX(1);
@@ -235,9 +235,9 @@ export const Chip = styled.span<{ color?: string }>`
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
   background: ${(props) =>
-    props.color ? props.color : "rgba(74, 144, 217, 0.1)"};
+    props.color ? props.color : "var(--color-gray-light)"};
   color: ${(props) =>
-    props.color ? "white" : "var(--color-blue)"};
+    props.color ? "white" : "var(--color-dark)"};
   border-radius: var(--radius-md);
   font-size: 0.8rem;
   font-weight: 500;
@@ -533,13 +533,13 @@ export const FormInput = styled.input<{ hasError?: boolean; hasSuccess?: boolean
         ? 'var(--color-error)' 
         : props.hasSuccess 
           ? 'var(--color-success)' 
-          : 'var(--color-blue)'};
+          : 'var(--color-dark)'};
     box-shadow: 0 0 0 3px ${(props) => 
       props.hasError 
         ? 'rgba(230, 57, 70, 0.1)' 
         : props.hasSuccess 
           ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(74, 144, 217, 0.1)'};
+          : 'rgba(26, 26, 26, 0.1)'};
     background: var(--color-white);
   }
 
@@ -627,13 +627,13 @@ export const FormTextarea = styled.textarea<{ hasError?: boolean; hasSuccess?: b
         ? 'var(--color-error)' 
         : props.hasSuccess 
           ? 'var(--color-success)' 
-          : 'var(--color-blue)'};
+          : 'var(--color-dark)'};
     box-shadow: 0 0 0 3px ${(props) => 
       props.hasError 
         ? 'rgba(230, 57, 70, 0.1)' 
         : props.hasSuccess 
           ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(74, 144, 217, 0.1)'};
+          : 'rgba(26, 26, 26, 0.1)'};
     background: var(--color-white);
   }
 
@@ -700,15 +700,15 @@ export const FormSelect = styled.select<{ hasError?: boolean; hasSuccess?: boole
         ? 'var(--color-error)' 
         : props.hasSuccess 
           ? 'var(--color-success)' 
-          : 'var(--color-blue)'};
+          : 'var(--color-dark)'};
     box-shadow: 0 0 0 3px ${(props) => 
       props.hasError 
         ? 'rgba(230, 57, 70, 0.1)' 
         : props.hasSuccess 
           ? 'rgba(45, 158, 73, 0.1)' 
-          : 'rgba(74, 144, 217, 0.1)'};
+          : 'rgba(26, 26, 26, 0.1)'};
     background-color: var(--color-white);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%234A90D9' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%231a1a1a' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
   }
 
   &:disabled {
@@ -810,8 +810,8 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
   }
 
   &:hover {
-    border-color: var(--color-blue);
-    background: rgba(74, 144, 217, 0.05);
+    border-color: var(--color-gray);
+    background: var(--color-light);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
     
@@ -821,8 +821,8 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
   }
 
   &:focus-within {
-    border-color: var(--color-blue);
-    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.1);
+    border-color: var(--color-dark);
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
   }
 
   input {
@@ -832,7 +832,7 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
   svg {
     width: 48px;
     height: 48px;
-    color: var(--color-blue);
+    color: var(--color-gray);
     margin-bottom: var(--spacing-lg);
     transition: transform var(--transition-fast);
   }
