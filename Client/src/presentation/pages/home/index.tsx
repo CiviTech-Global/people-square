@@ -1,39 +1,40 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  Container,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  Chip,
-  Stack,
-} from "@mui/material";
-import {
-  Logout as LogoutIcon,
-  Person as PersonIcon,
-  Add as AddIcon,
-  InsertDriveFile as FileIcon,
-} from "@mui/icons-material";
+import { LogOut, User, Plus, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar, GlassAppBar, ProjectDetailsModal } from "../../components";
 import { useAuth } from "../../../context/AuthContext";
-import { colors } from "../../themes";
 import {
   ProjectService,
   type Project,
 } from "../../../services/api/project.service";
+import {
+  HomeContainer,
+  ContentWrapper,
+  HeaderSection,
+  ProjectsSection,
+  SectionHeader,
+  NewProjectButton,
+  ProjectsGrid,
+  ProjectCard,
+  ProjectTitle,
+  ProjectDescription,
+  ChipsContainer,
+  Chip,
+  ViewDetailsButton,
+  EmptyState,
+  CreateButton,
+  LoadingText,
+  ProfileMenu,
+  ProfileMenuItem,
+  AppBarActionsContainer,
+  IconButtonStyled,
+  ColorBar,
+} from "./style";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -58,20 +59,13 @@ const HomePage = () => {
     }
   };
 
-  const handleSettingsClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleSettingsClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleProfileClick = () => {
-    handleSettingsClose();
+    setShowProfileMenu(false);
     navigate("/settings");
   };
 
   const handleLogout = () => {
+    setShowProfileMenu(false);
     logout();
     navigate("/login");
   };
@@ -89,13 +83,13 @@ const HomePage = () => {
   const getInvestmentStatusColor = (status: string) => {
     switch (status) {
       case "self-sponsored":
-        return colors.primary.main;
+        return "linear-gradient(135deg, rgba(230, 57, 70, 0.8), rgba(230, 57, 70, 0.6))";
       case "looking-for-first-sponsor":
-        return "#FFA726";
+        return "linear-gradient(135deg, rgba(244, 185, 66, 0.8), rgba(244, 185, 66, 0.6))";
       case "looking-for-more-sponsors":
-        return "#42A5F5";
+        return "linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))";
       default:
-        return colors.text.muted;
+        return "rgba(45, 158, 73, 0.2)";
     }
   };
 
@@ -113,265 +107,97 @@ const HomePage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        minHeight: "100vh",
-        background: colors.background.lightGreen,
-      }}
-    >
+    <HomeContainer>
       <Sidebar />
-      <Box sx={{ flex: 1, marginLeft: "260px" }}>
+      <ContentWrapper>
         <GlassAppBar title="Dashboard">
-          <IconButton
-            onClick={handleSettingsClick}
-            sx={{
-              color: colors.text.primary,
-              "&:hover": {
-                backgroundColor: "rgba(110, 199, 126, 0.1)",
-              },
-            }}
-          >
-            <PersonIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleLogout}
-            sx={{
-              color: colors.text.primary,
-              "&:hover": {
-                backgroundColor: "rgba(110, 199, 126, 0.1)",
-              },
-            }}
-          >
-            <LogoutIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleSettingsClose}
-            sx={{
-              "& .MuiPaper-root": {
-                backgroundColor: colors.background.white,
-                boxShadow: "0 4px 20px rgba(110, 199, 126, 0.15)",
-                borderRadius: "12px",
-                border: "1px solid rgba(110, 199, 126, 0.2)",
-                minWidth: 180,
-              },
-            }}
-          >
-            <MenuItem onClick={handleProfileClick}>
-              <ListItemIcon>
-                <PersonIcon sx={{ color: colors.primary.main }} />
-              </ListItemIcon>
-              <ListItemText sx={{ color: colors.text.primary }}>
-                Profile
-              </ListItemText>
-            </MenuItem>
-          </Menu>
+          <AppBarActionsContainer>
+            <IconButtonStyled
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              title="Profile"
+            >
+              <User />
+            </IconButtonStyled>
+            <IconButtonStyled onClick={handleLogout} title="Logout">
+              <LogOut />
+            </IconButtonStyled>
+            {showProfileMenu && (
+              <ProfileMenu>
+                <ProfileMenuItem onClick={handleProfileClick}>
+                  <User size={20} />
+                  Profile Settings
+                </ProfileMenuItem>
+                <ProfileMenuItem onClick={handleLogout}>
+                  <LogOut size={20} />
+                  Logout
+                </ProfileMenuItem>
+              </ProfileMenu>
+            )}
+          </AppBarActionsContainer>
         </GlassAppBar>
 
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-          <Box sx={{ mb: 4 }}>
-            <Typography
-              variant="h4"
-              sx={{ color: colors.text.primary, fontWeight: 700, mb: 1 }}
-            >
-              Welcome back, {user?.fullName || "User"}!
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: colors.text.secondary, fontSize: "1rem" }}
-            >
-              Manage your projects and track your progress
-            </Typography>
-          </Box>
+        <HeaderSection>
+          <h1>Welcome back, {user?.fullName || "User"}!</h1>
+          <p>Manage your projects and track your progress</p>
+        </HeaderSection>
 
-          {user?.role === "startup-owner" && (
-            <>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mb: 3,
-                }}
-              >
-                <Typography
-                  variant="h5"
-                  sx={{ color: colors.text.primary, fontWeight: 600 }}
-                >
-                  My Projects ({projects.length})
-                </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  onClick={() => navigate("/my-projects")}
-                  sx={{
-                    background: colors.primary.main,
-                    color: colors.text.light,
-                    textTransform: "none",
-                    borderRadius: "50px",
-                    px: 3,
-                    "&:hover": {
-                      background: colors.primary.dark,
-                    },
-                  }}
-                >
-                  New Project
-                </Button>
-              </Box>
+        {user?.role === "startup-owner" && (
+          <ProjectsSection>
+            <SectionHeader>
+              <h2>My Projects ({projects.length})</h2>
+              <NewProjectButton onClick={() => navigate("/my-projects")}>
+                <Plus size={20} />
+                New Project
+              </NewProjectButton>
+            </SectionHeader>
 
-              {loading ? (
-                <Typography sx={{ color: colors.text.secondary }}>
-                  Loading projects...
-                </Typography>
-              ) : projects.length === 0 ? (
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    py: 8,
-                    background: colors.background.white,
-                    borderRadius: "16px",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{ color: colors.text.secondary, mb: 2 }}
+            {loading ? (
+              <LoadingText>Loading projects...</LoadingText>
+            ) : projects.length === 0 ? (
+              <EmptyState>
+                <h3>No projects yet</h3>
+                <p>
+                  Create your first project to get started with People Square
+                </p>
+                <CreateButton onClick={() => navigate("/my-projects")}>
+                  Create Your First Project
+                </CreateButton>
+              </EmptyState>
+            ) : (
+              <ProjectsGrid>
+                {projects.slice(0, 6).map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    onClick={() => handleViewDetails(project)}
                   >
-                    No projects yet
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate("/my-projects")}
-                    sx={{
-                      borderColor: colors.primary.main,
-                      color: colors.primary.main,
-                      textTransform: "none",
-                      "&:hover": {
-                        borderColor: colors.primary.dark,
-                        background: colors.primary.lighter,
-                      },
-                    }}
-                  >
-                    Create Your First Project
-                  </Button>
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridTemplateColumns: {
-                      xs: "1fr",
-                      md: "repeat(2, 1fr)",
-                      lg: "repeat(3, 1fr)",
-                    },
-                    gap: 3,
-                  }}
-                >
-                  {projects.slice(0, 6).map((project) => (
-                    <Card
-                      key={project.id}
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        borderRadius: "16px",
-                        border: `1px solid ${colors.primary.lighter}`,
-                        boxShadow: "0 2px 8px rgba(110, 199, 126, 0.1)",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          boxShadow: "0 4px 16px rgba(110, 199, 126, 0.2)",
-                          transform: "translateY(-4px)",
-                        },
-                      }}
-                    >
-                      <CardContent sx={{ flex: 1 }}>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: colors.text.primary,
-                            fontWeight: 600,
-                            mb: 1,
-                          }}
-                        >
-                          {project.title}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: colors.text.secondary,
-                            mb: 2,
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                          }}
-                        >
-                          {project.description}
-                        </Typography>
-                        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                          <Chip
-                            label={getInvestmentStatusLabel(
-                              project.investmentStatus
-                            )}
-                            size="small"
-                            sx={{
-                              backgroundColor: getInvestmentStatusColor(
-                                project.investmentStatus
-                              ),
-                              color: colors.text.light,
-                              fontWeight: 500,
-                            }}
-                          />
-                          {project.isRegistered && (
-                            <Chip
-                              label="Registered"
-                              size="small"
-                              color="success"
-                            />
-                          )}
-                          {project.files && project.files.length > 0 && (
-                            <Chip
-                              icon={<FileIcon />}
-                              label={`${project.files.length} file${project.files.length > 1 ? 's' : ''}`}
-                              size="small"
-                              sx={{
-                                backgroundColor: "#42A5F5",
-                                color: colors.text.light,
-                                fontWeight: 500,
-                              }}
-                            />
-                          )}
-                        </Box>
-                      </CardContent>
-                      <CardActions sx={{ p: 2, pt: 0 }}>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          onClick={() => handleViewDetails(project)}
-                          sx={{
-                            background: colors.primary.main,
-                            color: colors.text.light,
-                            textTransform: "none",
-                            borderRadius: "8px",
-                            py: 1,
-                            fontWeight: 600,
-                            "&:hover": {
-                              background: colors.primary.dark,
-                            },
-                          }}
-                        >
-                          View Details
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  ))}
-                </Box>
-              )}
-            </>
-          )}
-        </Container>
-      </Box>
+                    <ProjectTitle>{project.title}</ProjectTitle>
+                    <ProjectDescription>{project.description}</ProjectDescription>
+                    <ChipsContainer>
+                      <Chip color={getInvestmentStatusColor(project.investmentStatus)}>
+                        {getInvestmentStatusLabel(project.investmentStatus)}
+                      </Chip>
+                      {project.isRegistered && (
+                        <Chip color="linear-gradient(135deg, rgba(45, 158, 73, 0.8), rgba(45, 158, 73, 0.6))">
+                          Registered
+                        </Chip>
+                      )}
+                      {project.files && project.files.length > 0 && (
+                        <Chip color="linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))">
+                          <FileText size={14} />
+                          {project.files.length} file{project.files.length > 1 ? 's' : ''}
+                        </Chip>
+                      )}
+                    </ChipsContainer>
+                    <ViewDetailsButton onClick={() => handleViewDetails(project)}>
+                      View Details
+                    </ViewDetailsButton>
+                  </ProjectCard>
+                ))}
+              </ProjectsGrid>
+            )}
+          </ProjectsSection>
+        )}
+      </ContentWrapper>
 
       {/* Project Details Modal */}
       <ProjectDetailsModal
@@ -380,7 +206,10 @@ const HomePage = () => {
         onClose={handleCloseDetails}
         showActions={false}
       />
-    </Box>
+
+      {/* Color Bar */}
+      <ColorBar />
+    </HomeContainer>
   );
 };
 

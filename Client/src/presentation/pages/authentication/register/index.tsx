@@ -1,304 +1,157 @@
-import { useState } from "react";
-import { Box, Typography, Container, Link, InputAdornment, Alert } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
-import WorkIcon from "@mui/icons-material/Work";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import BusinessIcon from "@mui/icons-material/Business";
-import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import PhoneIcon from "@mui/icons-material/Phone";
-import {
-  GradientBackground,
-  GlassCard,
-  GlassButton,
-  GlassTextField,
-  GlassSelect,
-  MenuItem,
-} from "../../../components";
-import { glassColors, spacing } from "../../../themes";
-import { AuthService } from "../../../../services/api/auth.service";
-import { useAuth } from "../../../../context/AuthContext";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { User, Mail, Lock } from 'lucide-react';
+import { Input, Button, Logo, SocialButton } from '../../../components';
+import { useAuth } from '../../../../context/AuthContext';
+import { AuthService } from '../../../../services/api/auth.service';
+import * as S from './style';
 
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    role: "",
-    password: "",
-    confirmPassword: "",
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
-  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
-      [field]: e.target.value,
+      [field]: value,
     }));
-    setError("");
-  };
-
-  const handleRoleChange = (e: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      role: e.target.value,
-    }));
-    setError("");
+    setError('');
   };
 
   const handleRegister = async () => {
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
-      if (!formData.fullName || !formData.email || !formData.role || !formData.password || !formData.confirmPassword) {
-        setError("Please fill in all fields");
+      if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
+        setError('Please fill in all fields');
         return;
       }
 
       if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
+        setError('Passwords do not match');
         return;
       }
 
       if (formData.password.length < 8) {
-        setError("Password must be at least 8 characters long");
+        setError('Password must be at least 8 characters long');
+        return;
+      }
+
+      if (!termsAccepted) {
+        setError('Please accept the Terms and Privacy Policy');
         return;
       }
 
       const response = await AuthService.register({
         fullName: formData.fullName,
         email: formData.email,
-        role: formData.role,
+        role: 'citizen', // Default role
         password: formData.password,
       });
 
       if (response.success) {
         login(response.data.token, response.data.user);
-        navigate("/home");
+        // Navigate to profile setup or home based on your flow
+        navigate('/home');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || err.response?.data?.errors?.join(", ") || "Registration failed. Please try again.");
+      setError(err.response?.data?.message || err.response?.data?.errors?.join(', ') || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const getRoleIcon = (role: string) => {
-    switch (role) {
-      case "startup-owner":
-        return <RocketLaunchIcon sx={{ fontSize: "20px" }} />;
-      case "investor":
-        return <AccountBalanceIcon sx={{ fontSize: "20px" }} />;
-      case "organization":
-        return <BusinessIcon sx={{ fontSize: "20px" }} />;
-      case "citizen":
-        return <LightbulbIcon sx={{ fontSize: "20px" }} />;
-      default:
-        return <WorkIcon sx={{ fontSize: "20px" }} />;
-    }
-  };
-
   return (
-    <GradientBackground>
-      <Container
-        maxWidth="sm"
-        sx={{
-          padding: { xs: "16px", sm: "20px" },
-          maxWidth: "100%",
-          boxSizing: "border-box",
-        }}
-      >
-        <GlassCard maxWidth="500px">
-          <Typography
-            variant="h4"
-            component="h1"
-            sx={{
-              color: glassColors.textPrimary,
-              fontWeight: 700,
-              textAlign: "center",
-              marginBottom: spacing.xs,
-              fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
-            }}
-          >
-            Create account
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              color: glassColors.textSecondary,
-              textAlign: "center",
-              marginBottom: spacing.xl,
-              fontSize: { xs: "13px", sm: "14px" },
-            }}
-          >
-            Fill up the form to join the People Square community
-          </Typography>
+    <S.Screen>
+      <S.AuthCard>
+        <S.BackButton onClick={() => navigate('/')}>← Back</S.BackButton>
 
-          {error && (
-            <Alert severity="error" sx={{ marginBottom: spacing.lg }}>
-              {error}
-            </Alert>
-          )}
+        <S.AuthHeader>
+          <Logo size={60} />
+          <h2>Join the Square</h2>
+          <p>Create your account to get started</p>
+        </S.AuthHeader>
 
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassTextField
-                fullWidth
-                type="text"
-                placeholder="Full Name"
-                value={formData.fullName}
-                onChange={handleInputChange("fullName")}
-                InputProps={{
-                  startAdornment: (
-                    <PersonIcon sx={{ color: glassColors.textSecondary, marginRight: "10px" }} />
-                  ),
-                }}
-              />
-            </Box>
+        {error && <S.ErrorAlert>{error}</S.ErrorAlert>}
 
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassTextField
-                fullWidth
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleInputChange("email")}
-                InputProps={{
-                  startAdornment: (
-                    <EmailIcon sx={{ color: glassColors.textSecondary, marginRight: "10px" }} />
-                  ),
-                }}
-              />
-            </Box>
+        <S.AuthForm>
+          <Input
+            type="text"
+            placeholder="Full name"
+            value={formData.fullName}
+            onChange={(value) => handleInputChange('fullName', value)}
+            icon={<User size={20} />}
+          />
 
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassSelect
-                fullWidth
-                value={formData.role}
-                onChange={handleRoleChange}
-                displayEmpty
-                startAdornment={
-                  <InputAdornment position="start">
-                    {formData.role ? (
-                      getRoleIcon(formData.role)
-                    ) : (
-                      <WorkIcon sx={{ color: glassColors.textSecondary }} />
-                    )}
-                  </InputAdornment>
-                }
-                renderValue={(selected) => {
-                  if (!selected) {
-                    return (
-                      <Typography sx={{ color: glassColors.textSecondary }}>
-                        Select Your Role
-                      </Typography>
-                    );
-                  }
-                  const roleLabels: { [key: string]: string } = {
-                    "startup-owner": "Startup Owners/Developers",
-                    investor: "Investors, Sponsors, Venture Capitalists, etc.",
-                    organization: "Organizations and Enterprises",
-                    citizen: "Citizen with a Challenge/Issue/Demand",
-                  };
-                  return roleLabels[selected as string];
-                }}
-              >
-                <MenuItem value="startup-owner">
-                  <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <RocketLaunchIcon sx={{ fontSize: "20px" }} />
-                    <Typography>Startup Owners/Developers</Typography>
-                  </Box>
-                </MenuItem>
-                <MenuItem value="investor">
-                  <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <AccountBalanceIcon sx={{ fontSize: "20px" }} />
-                    <Typography>Investors, Sponsors, Venture Capitalists, etc.</Typography>
-                  </Box>
-                </MenuItem>
-                <MenuItem value="organization">
-                  <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <BusinessIcon sx={{ fontSize: "20px" }} />
-                    <Typography>Organizations and Enterprises</Typography>
-                  </Box>
-                </MenuItem>
-                <MenuItem value="citizen">
-                  <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <LightbulbIcon sx={{ fontSize: "20px" }} />
-                    <Typography>Citizen with a Challenge/Issue/Demand</Typography>
-                  </Box>
-                </MenuItem>
-              </GlassSelect>
-            </Box>
+          <Input
+            type="email"
+            placeholder="Email address"
+            value={formData.email}
+            onChange={(value) => handleInputChange('email', value)}
+            icon={<Mail size={20} />}
+          />
 
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassTextField
-                fullWidth
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange("password")}
-                InputProps={{
-                  startAdornment: (
-                    <LockIcon sx={{ color: glassColors.textSecondary, marginRight: "10px" }} />
-                  ),
-                }}
-              />
-            </Box>
+          <Input
+            type="password"
+            placeholder="Create password"
+            value={formData.password}
+            onChange={(value) => handleInputChange('password', value)}
+            icon={<Lock size={20} />}
+          />
 
-            <Box sx={{ marginBottom: spacing.xl }}>
-              <GlassTextField
-                fullWidth
-                type="password"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleInputChange("confirmPassword")}
-                InputProps={{
-                  startAdornment: (
-                    <LockIcon sx={{ color: glassColors.textSecondary, marginRight: "10px" }} />
-                  ),
-                }}
-              />
-            </Box>
+          <Input
+            type="password"
+            placeholder="Confirm password"
+            value={formData.confirmPassword}
+            onChange={(value) => handleInputChange('confirmPassword', value)}
+            icon={<Lock size={20} />}
+          />
 
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassButton onClick={handleRegister} disabled={loading}>
-                {loading ? "Registering..." : "Register"}
-              </GlassButton>
-            </Box>
+          <S.TermsCheck>
+            <input
+              type="checkbox"
+              id="terms"
+              checked={termsAccepted}
+              onChange={(e) => setTermsAccepted(e.target.checked)}
+            />
+            <label htmlFor="terms">
+              I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+            </label>
+          </S.TermsCheck>
 
-            <Typography
-              sx={{
-                color: glassColors.textSecondary,
-                textAlign: "center",
-                fontSize: "14px",
-              }}
-            >
-              Already have an account?{" "}
-              <Link
-                onClick={() => navigate("/login")}
-                sx={{
-                  color: glassColors.textPrimary,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  textDecoration: "none",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-              >
-                Login
-              </Link>
-            </Typography>
-          </Box>
-        </GlassCard>
-      </Container>
-    </GradientBackground>
+          <Button onClick={handleRegister} disabled={loading || !termsAccepted} loading={loading}>
+            Create Account
+          </Button>
+        </S.AuthForm>
+
+        <S.AuthDivider>
+          <span>or continue with</span>
+        </S.AuthDivider>
+
+        <S.SocialButtons>
+          <SocialButton provider="google" />
+          <SocialButton provider="github" />
+          <SocialButton provider="linkedin" />
+        </S.SocialButtons>
+
+        <S.AuthSwitch>
+          Already have an account?{' '}
+          <button onClick={() => navigate('/login')}>Sign in</button>
+        </S.AuthSwitch>
+      </S.AuthCard>
+
+      <S.ColorBar />
+    </S.Screen>
   );
 };
 

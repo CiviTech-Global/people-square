@@ -1,0 +1,154 @@
+/* People Square - CSS Custom Properties & Design System */
+:root {
+  /* ========================
+     COLOR PALETTE - New Unified Naming
+     ======================== */
+  /* Brand Colors */
+  --color-red: #E63946;
+  --color-yellow: #F4B942;
+  --color-green: #2D9E49;
+  --color-blue: #4A90D9;
+  --color-primary: #2D9E49; /* Primary = Green */
+
+  /* Dark & Light */
+  --color-dark: #1a1a1a;
+  --color-darker: #0f0f0f;
+  --color-light: #f8f9fa;
+
+  /* Gray Scale */
+  --color-gray: #6b7280;
+  --color-gray-light: #e5e7eb;
+
+  /* White */
+  --color-white: #ffffff;
+
+  /* Text Colors */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b7280;
+
+  /* Surface Colors */
+  --color-surface: rgba(255, 255, 255, 0.95);
+  --color-surface-glass: rgba(255, 255, 255, 0.05);
+
+  /* Error Colors */
+  --color-error: #E63946;
+  --color-error-bg: rgba(230, 57, 70, 0.1);
+  --color-error-border: rgba(230, 57, 70, 0.3);
+
+  /* Success Colors */
+  --color-success: #2D9E49;
+  --color-success-bg: rgba(45, 158, 73, 0.1);
+  --color-success-border: rgba(45, 158, 73, 0.3);
+
+  /* Glassmorphism */
+  --glass-opacity: 0.05;
+  --glass-opacity-hover: 0.08;
+  --glass-blur: 10px;
+  --glass-border: rgba(110, 199, 126, 0.15);
+
+  /* ========================
+     LEGACY COLOR ALIASES (for backward compatibility)
+     ======================== */
+  --ps-red: var(--color-red);
+  --ps-yellow: var(--color-yellow);
+  --ps-green: var(--color-green);
+  --ps-blue: var(--color-blue);
+  --ps-dark: var(--color-dark);
+  --ps-darker: var(--color-darker);
+  --ps-light: var(--color-light);
+  --ps-gray: var(--color-gray);
+  --ps-gray-light: var(--color-gray-light);
+  --ps-white: var(--color-white);
+
+  /* ========================
+     GRADIENTS
+     ======================== */
+  --gradient-warm: linear-gradient(135deg, var(--color-red) 0%, var(--color-yellow) 100%);
+  --gradient-cool: linear-gradient(135deg, var(--color-blue) 0%, var(--color-green) 100%);
+  --gradient-full: linear-gradient(135deg, var(--color-red) 0%, var(--color-yellow) 25%, var(--color-green) 75%, var(--color-blue) 100%);
+  --gradient-primary: linear-gradient(135deg, var(--color-primary), #2D9E49);
+
+  /* ========================
+     TYPOGRAPHY
+     ======================== */
+  --font-display: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ========================
+     SPACING SCALE - New Unified Naming
+     ======================== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* ========================
+     LEGACY SPACING ALIASES (for backward compatibility)
+     ======================== */
+  --space-xs: var(--spacing-xs);
+  --space-sm: var(--spacing-sm);
+  --space-md: var(--spacing-md);
+  --space-lg: var(--spacing-lg);
+  --space-xl: var(--spacing-xl);
+  --space-2xl: var(--spacing-2xl);
+  --space-3xl: var(--spacing-3xl);
+
+  /* ========================
+     BORDER RADIUS
+     ======================== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ========================
+     SHADOWS
+     ======================== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 0 20px rgba(74, 144, 217, 0.08);
+
+  /* ========================
+     TRANSITIONS
+     ======================== */
+  --transition-fast: 0.2s ease;
+  --transition-default: 0.3s ease;
+  --transition-slow: 0.4s ease;
+
+  /* ========================
+     Z-INDEX SCALE
+     ======================== */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+}
+
+/* ========================
+   MEDIA QUERIES VARIABLES
+   ======================== */
+@media (max-width: 768px) {
+  :root {
+    --space-xl: 24px;
+    --space-2xl: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --space-lg: 16px;
+    --space-xl: 16px;
+    --space-2xl: 24px;
+  }
+}

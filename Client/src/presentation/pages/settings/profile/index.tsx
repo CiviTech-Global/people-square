@@ -1,30 +1,30 @@
 import { useState } from "react";
-import {
-  Box,
-  Typography,
-  Avatar,
-  Divider,
-  Chip,
-  IconButton,
-  Stack,
-  Alert,
-  CircularProgress,
-} from "@mui/material";
-import {
-  Edit as EditIcon,
-  Save as SaveIcon,
-  Cancel as CancelIcon,
-  Person as PersonIcon,
-  Email as EmailIcon,
-  Badge as BadgeIcon,
-  CalendarToday as CalendarIcon,
-} from "@mui/icons-material";
+import { Edit, Save, X, User, Mail, Badge, Calendar } from "lucide-react";
 import { useAuth } from "../../../../context/AuthContext";
-import { GlassCard } from "../../../components/GlassCard/GlassCard";
-import { GlassTextField } from "../../../components/inputs/GlassTextField/GlassTextField";
-import { GlassButton } from "../../../components/buttons/GlassButton/GlassButton";
 import { UserService } from "../../../../services/api/user.service";
-import { colors } from "../../../themes";
+import {
+  ProfileContainer,
+  ProfileCard,
+  AlertBox,
+  HeaderSection,
+  AvatarSection,
+  Avatar,
+  UserInfo,
+  UserName,
+  RoleBadge,
+  EditButton,
+  Divider,
+  SectionTitle,
+  InformationGrid,
+  InfoField,
+  FieldLabel,
+  FieldValue,
+  FieldInput,
+  ActionButtons,
+  CancelButton,
+  SaveButton,
+  LoadingSpinner,
+} from "./style";
 
 const Profile = () => {
   const { user, updateUser } = useAuth();
@@ -87,15 +87,15 @@ const Profile = () => {
   const getRoleColor = (role: string) => {
     switch (role) {
       case "startup-owner":
-        return colors.primary.main;
+        return "var(--color-primary)";
       case "investor":
-        return colors.primary.light;
+        return "#4A90D9";
       case "organization":
-        return colors.primary.dark;
+        return "#2D9E49";
       case "citizen":
-        return colors.accent.green;
+        return "#F4B942";
       default:
-        return colors.primary.main;
+        return "var(--color-primary)";
     }
   };
 
@@ -116,297 +116,130 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-        <Typography sx={{ color: colors.text.secondary }}>
-          Loading profile...
-        </Typography>
-      </Box>
+      <ProfileContainer>
+        <div style={{ textAlign: "center", padding: "var(--spacing-2xl)" }}>
+          <p style={{ color: "var(--color-text-secondary)" }}>Loading profile...</p>
+        </div>
+      </ProfileContainer>
     );
   }
 
   return (
-    <Box sx={{ maxWidth: 900, mx: "auto" }}>
+    <ProfileContainer>
       {error && (
-        <Alert
-          severity="error"
-          onClose={() => setError(null)}
-          sx={{ mb: 2 }}
-        >
-          {error}
-        </Alert>
+        <AlertBox type="error">
+          <span>{error}</span>
+          <button onClick={() => setError(null)}>
+            <X size={18} />
+          </button>
+        </AlertBox>
       )}
       {success && (
-        <Alert
-          severity="success"
-          onClose={() => setSuccess(null)}
-          sx={{ mb: 2 }}
-        >
-          {success}
-        </Alert>
+        <AlertBox type="success">
+          <span>{success}</span>
+          <button onClick={() => setSuccess(null)}>
+            <X size={18} />
+          </button>
+        </AlertBox>
       )}
-      <GlassCard fullWidth maxWidth="100%">
-        {/* Header Section */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            mb: 4,
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-            <Avatar
-              sx={{
-                width: 100,
-                height: 100,
-                background: "linear-gradient(135deg, #6EC77E 0%, #A8D99C 100%)",
-                fontSize: "2.5rem",
-                fontWeight: 700,
-                color: colors.text.light,
-                boxShadow: "0 4px 20px rgba(110, 199, 126, 0.3)",
-              }}
-            >
-              {user.fullName.charAt(0).toUpperCase()}
-            </Avatar>
-            <Box>
-              <Typography
-                variant="h4"
-                sx={{
-                  color: colors.text.primary,
-                  fontWeight: 700,
-                  mb: 1,
-                }}
-              >
-                {user.fullName}
-              </Typography>
-              <Chip
-                label={getRoleLabel(user.role)}
-                sx={{
-                  backgroundColor: getRoleColor(user.role),
-                  color: "#ffffff",
-                  fontWeight: 600,
-                  fontSize: "0.875rem",
-                  boxShadow: "0 4px 16px 0 rgba(31, 38, 135, 0.3)",
-                }}
-              />
-            </Box>
-          </Box>
-          {!isEditing && (
-            <IconButton
-              onClick={handleEdit}
-              sx={{
-                color: colors.text.primary,
-                backgroundColor: "rgba(110, 199, 126, 0.1)",
-                "&:hover": {
-                  backgroundColor: "rgba(110, 199, 126, 0.2)",
-                },
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-          )}
-        </Box>
 
-        <Divider
-          sx={{
-            borderColor: "rgba(110, 199, 126, 0.2)",
-            mb: 4,
-          }}
-        />
+      <ProfileCard>
+        {/* Header Section */}
+        <HeaderSection>
+          <AvatarSection>
+            <Avatar>{user.fullName.charAt(0).toUpperCase()}</Avatar>
+            <UserInfo>
+              <UserName>{user.fullName}</UserName>
+              <RoleBadge style={{ background: getRoleColor(user.role) }}>
+                {getRoleLabel(user.role)}
+              </RoleBadge>
+            </UserInfo>
+          </AvatarSection>
+
+          {!isEditing && (
+            <EditButton onClick={handleEdit} disabled={loading}>
+              <Edit size={20} />
+            </EditButton>
+          )}
+        </HeaderSection>
+
+        <Divider />
 
         {/* Profile Information */}
-        <Box>
-          <Typography
-            variant="h6"
-            sx={{
-              color: colors.text.primary,
-              fontWeight: 600,
-              mb: 3,
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <PersonIcon /> Personal Information
-          </Typography>
+        <SectionTitle>
+          <User size={20} />
+          Personal Information
+        </SectionTitle>
 
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-              gap: 3,
-            }}
-          >
-            <Box>
-              <Typography
-                sx={{
-                  color: colors.text.secondary,
-                  fontSize: "0.875rem",
-                  mb: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <PersonIcon fontSize="small" /> Full Name
-              </Typography>
-              {isEditing ? (
-                <GlassTextField
-                  fullWidth
-                  value={editedFullName}
-                  onChange={(e) => setEditedFullName(e.target.value)}
-                  placeholder="Enter your full name"
-                />
-              ) : (
-                <Typography
-                  sx={{
-                    color: colors.text.primary,
-                    fontSize: "1rem",
-                    fontWeight: 500,
-                  }}
-                >
-                  {user.fullName}
-                </Typography>
-              )}
-            </Box>
+        <InformationGrid>
+          <InfoField>
+            <FieldLabel>
+              <User size={16} />
+              Full Name
+            </FieldLabel>
+            {isEditing ? (
+              <FieldInput
+                value={editedFullName}
+                onChange={(e) => setEditedFullName(e.target.value)}
+                placeholder="Enter your full name"
+                disabled={loading}
+              />
+            ) : (
+              <FieldValue>{user.fullName}</FieldValue>
+            )}
+          </InfoField>
 
-            <Box>
-              <Typography
-                sx={{
-                  color: colors.text.secondary,
-                  fontSize: "0.875rem",
-                  mb: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <EmailIcon fontSize="small" /> Email Address
-              </Typography>
-              <Typography
-                sx={{
-                  color: colors.text.primary,
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                }}
-              >
-                {user.email}
-              </Typography>
-            </Box>
+          <InfoField>
+            <FieldLabel>
+              <Mail size={16} />
+              Email Address
+            </FieldLabel>
+            <FieldValue>{user.email}</FieldValue>
+          </InfoField>
 
-            <Box>
-              <Typography
-                sx={{
-                  color: colors.text.secondary,
-                  fontSize: "0.875rem",
-                  mb: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <BadgeIcon fontSize="small" /> Role
-              </Typography>
-              <Typography
-                sx={{
-                  color: colors.text.primary,
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                }}
-              >
-                {getRoleLabel(user.role)}
-              </Typography>
-            </Box>
+          <InfoField>
+            <FieldLabel>
+              <Badge size={16} />
+              Role
+            </FieldLabel>
+            <FieldValue>{getRoleLabel(user.role)}</FieldValue>
+          </InfoField>
 
-            <Box>
-              <Typography
-                sx={{
-                  color: colors.text.secondary,
-                  fontSize: "0.875rem",
-                  mb: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <CalendarIcon fontSize="small" /> Member Since
-              </Typography>
-              <Typography
-                sx={{
-                  color: colors.text.primary,
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                }}
-              >
-                {formatDate(user.createdAt)}
-              </Typography>
-            </Box>
+          <InfoField>
+            <FieldLabel>
+              <Calendar size={16} />
+              Member Since
+            </FieldLabel>
+            <FieldValue>{formatDate(user.createdAt)}</FieldValue>
+          </InfoField>
 
-            <Box>
-              <Typography
-                sx={{
-                  color: colors.text.secondary,
-                  fontSize: "0.875rem",
-                  mb: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <CalendarIcon fontSize="small" /> Last Updated
-              </Typography>
-              <Typography
-                sx={{
-                  color: colors.text.primary,
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                }}
-              >
-                {formatDate(user.updatedAt)}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+          <InfoField>
+            <FieldLabel>
+              <Calendar size={16} />
+              Last Updated
+            </FieldLabel>
+            <FieldValue>{formatDate(user.updatedAt)}</FieldValue>
+          </InfoField>
+        </InformationGrid>
 
         {/* Edit Actions */}
         {isEditing && (
           <>
-            <Divider
-              sx={{
-                borderColor: "rgba(110, 199, 126, 0.2)",
-                my: 4,
-              }}
-            />
-            <Stack direction="row" spacing={2} justifyContent="flex-end">
-              <GlassButton
-                onClick={handleCancel}
-                icon={<CancelIcon />}
-                fullWidth={false}
-                disabled={loading}
-                sx={{
-                  minWidth: 120,
-                  background: "rgba(110, 199, 126, 0.2)",
-                  "&:hover": {
-                    background: "rgba(110, 199, 126, 0.3)",
-                  },
-                }}
-              >
+            <Divider />
+            <ActionButtons>
+              <CancelButton onClick={handleCancel} disabled={loading}>
+                <X size={18} />
                 Cancel
-              </GlassButton>
-              <GlassButton
-                onClick={handleSave}
-                icon={loading ? <CircularProgress size={20} sx={{ color: "#fff" }} /> : <SaveIcon />}
-                fullWidth={false}
-                disabled={loading}
-                sx={{ minWidth: 120 }}
-              >
+              </CancelButton>
+              <SaveButton onClick={handleSave} disabled={loading}>
+                {loading ? <LoadingSpinner /> : <Save size={18} />}
                 {loading ? "Saving..." : "Save"}
-              </GlassButton>
-            </Stack>
+              </SaveButton>
+            </ActionButtons>
           </>
         )}
-      </GlassCard>
-    </Box>
+      </ProfileCard>
+    </ProfileContainer>
   );
 };
 

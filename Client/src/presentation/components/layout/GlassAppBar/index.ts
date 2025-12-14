@@ -1,1 +1,1 @@
-export { GlassAppBar } from "./GlassAppBar";
+export { default as GlassAppBar } from "./GlassAppBar";

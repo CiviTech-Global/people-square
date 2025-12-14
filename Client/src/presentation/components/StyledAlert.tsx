@@ -1,4 +1,5 @@
-import { Alert, AlertProps, alpha } from "@mui/material";
+import type { AlertProps } from "@mui/material";
+import { Alert, alpha } from "@mui/material";
 import { colors } from "../themes";
 
 export const StyledAlert = (props: AlertProps) => {

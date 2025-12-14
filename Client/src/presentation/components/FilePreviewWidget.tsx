@@ -73,8 +73,8 @@ export const FilePreviewWidget = ({ file, onDownload }: FilePreviewWidgetProps) 
           position: "relative",
           overflow: "hidden",
           "&:hover": {
-            boxShadow: `0 8px 24px ${colors.primary.main}30`,
-            transform: "translateY(-4px)",
+            boxShadow: `0 4px 12px ${colors.primary.main}20`,
+            transform: "translateY(-2px)",
             borderColor: colors.primary.main,
           },
           "&::before": {

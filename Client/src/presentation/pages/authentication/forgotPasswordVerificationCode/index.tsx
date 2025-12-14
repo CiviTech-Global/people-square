@@ -1,127 +1,83 @@
-import { useState } from "react";
-import { Box, Typography, Container, Link } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import KeyIcon from "@mui/icons-material/Key";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { GradientBackground, GlassCard, GlassButton, GlassTextField } from "../../../components";
-import { glassColors, spacing } from "../../../themes";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Mail } from 'lucide-react';
+import { CodeInput, Button, Logo } from '../../../components';
+import * as S from './style';
 
-const ForgotPasswordVerificationCode = () => {
+const EmailVerification = () => {
   const navigate = useNavigate();
-  const [verificationCode, setVerificationCode] = useState("");
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleVerifyCode = () => {
-    console.log("Verification code:", verificationCode);
-    navigate("/set-new-password");
+  const isCodeComplete = code.every((digit) => digit !== '');
+
+  const handleVerify = async () => {
+    try {
+      setLoading(true);
+      setError('');
+
+      if (!isCodeComplete) {
+        setError('Please enter all 6 digits');
+        return;
+      }
+
+      // const codeString = code.join('');
+      // TODO: Call verification API
+      // const response = await AuthService.verifyCode(codeString);
+      // if (response.success) {
+      navigate('/set-new-password');
+      // }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Verification failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResendCode = () => {
-    console.log("Resend verification code");
+    console.log('Resend verification code');
     // Resend code logic will be implemented later
   };
 
   return (
-    <GradientBackground>
-      <Container
-        maxWidth="sm"
-        sx={{
-          padding: { xs: "16px", sm: "20px" },
-          maxWidth: "100%",
-          boxSizing: "border-box",
-        }}
-      >
-        <GlassCard maxWidth="450px">
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: spacing.md,
-            }}
-          >
-            <ArrowBackIcon
-              onClick={() => navigate("/forgot-password")}
-              sx={{
-                color: glassColors.textPrimary,
-                cursor: "pointer",
-                marginRight: spacing.sm,
-                "&:hover": {
-                  opacity: 0.8,
-                },
-              }}
-            />
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                color: glassColors.textPrimary,
-                fontWeight: 700,
-                fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
-              }}
-            >
-              Verification Code
-            </Typography>
-          </Box>
+    <S.Screen>
+      <S.AuthCard>
+        <S.LogoContainer>
+          <Logo size={60} />
+        </S.LogoContainer>
 
-          <Typography
-            variant="body2"
-            sx={{
-              color: glassColors.textSecondary,
-              marginBottom: spacing.xxxl,
-              fontSize: { xs: "13px", sm: "14px" },
-              lineHeight: 1.6,
-            }}
-          >
-            We've sent a verification code to your email. Please enter the code below to continue
-          </Typography>
+        <S.BackButton onClick={() => navigate('/forgot-password')}>← Back</S.BackButton>
 
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ marginBottom: spacing.xl }}>
-              <GlassTextField
-                fullWidth
-                type="text"
-                placeholder="Enter verification code"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <KeyIcon sx={{ color: glassColors.textSecondary, marginRight: "10px" }} />
-                  ),
-                }}
-              />
-            </Box>
+        <S.VerificationIcon>
+          <S.EmailSentIcon>
+            <Mail size={32} />
+            <S.CheckBadge>✓</S.CheckBadge>
+          </S.EmailSentIcon>
+        </S.VerificationIcon>
 
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassButton onClick={handleVerifyCode}>Verify Code</GlassButton>
-            </Box>
+        <S.AuthHeader>
+          <h2>Verify Your Email</h2>
+          <p>We've sent a 6-digit code to your@email.com</p>
+        </S.AuthHeader>
 
-            <Typography
-              sx={{
-                color: glassColors.textSecondary,
-                textAlign: "center",
-                fontSize: "14px",
-              }}
-            >
-              Didn't receive the code?{" "}
-              <Link
-                onClick={handleResendCode}
-                sx={{
-                  color: glassColors.textPrimary,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  textDecoration: "none",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-              >
-                Resend
-              </Link>
-            </Typography>
-          </Box>
-        </GlassCard>
-      </Container>
-    </GradientBackground>
+        {error && <S.ErrorAlert>{error}</S.ErrorAlert>}
+
+        <CodeInput value={code} onChange={setCode} />
+
+        <Button onClick={handleVerify} disabled={!isCodeComplete || loading} loading={loading}>
+          Verify & Continue
+        </Button>
+
+        <S.ResendText>
+          Didn't receive the code?{' '}
+          <button onClick={handleResendCode}>Resend</button>
+        </S.ResendText>
+      </S.AuthCard>
+
+      <S.ColorBar />
+    </S.Screen>
   );
 };
 
-export default ForgotPasswordVerificationCode;
+export default EmailVerification;

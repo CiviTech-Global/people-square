@@ -15,7 +15,11 @@
       "Bash(dir:*)",
       "mcp__ide__getDiagnostics",
       "Bash(npm install:*)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Bash(tree:*)",
+      "WebSearch",
+      "Bash(ren setNewPasswprd setNewPassword)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []

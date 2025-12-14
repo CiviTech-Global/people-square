@@ -1,146 +1,87 @@
-import { useState } from "react";
-import { Box, Typography, Container, Link, Alert } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import EmailIcon from "@mui/icons-material/Email";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { GradientBackground, GlassCard, GlassButton, GlassTextField } from "../../../components";
-import { glassColors, spacing } from "../../../themes";
-import { AuthService } from "../../../../services/api/auth.service";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Mail } from 'lucide-react';
+import { Input, Button, Logo } from '../../../components';
+import { AuthService } from '../../../../services/api/auth.service';
+import * as S from './style';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSendCode = async () => {
     try {
       setLoading(true);
-      setError("");
+      setError('');
 
       if (!email) {
-        setError("Please enter your email");
+        setError('Please enter your email');
+        return;
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setError('Please enter a valid email address');
         return;
       }
 
       await AuthService.forgotPassword({ email });
-      navigate("/forgot-password-verification", { state: { email } });
+      navigate('/forgot-password-verification', { state: { email } });
     } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to send verification code. Please try again.");
+      setError(err.response?.data?.message || 'Failed to send verification code. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSendCode();
+    }
+  };
+
   return (
-    <GradientBackground>
-      <Container
-        maxWidth="sm"
-        sx={{
-          padding: { xs: "16px", sm: "20px" },
-          maxWidth: "100%",
-          boxSizing: "border-box",
-        }}
-      >
-        <GlassCard maxWidth="450px">
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: spacing.md,
-            }}
-          >
-            <ArrowBackIcon
-              onClick={() => navigate("/login")}
-              sx={{
-                color: glassColors.textPrimary,
-                cursor: "pointer",
-                marginRight: spacing.sm,
-                "&:hover": {
-                  opacity: 0.8,
-                },
-              }}
-            />
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                color: glassColors.textPrimary,
-                fontWeight: 700,
-                fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
-              }}
-            >
-              Forgot Password
-            </Typography>
-          </Box>
+    <S.Screen>
+      <S.AuthCard>
+        <S.LogoContainer>
+          <Logo size={60} />
+        </S.LogoContainer>
 
-          <Typography
-            variant="body2"
-            sx={{
-              color: glassColors.textSecondary,
-              marginBottom: spacing.xxxl,
-              fontSize: { xs: "13px", sm: "14px" },
-              lineHeight: 1.6,
-            }}
-          >
-            Enter your email address and we'll send you a verification code to reset your password
-          </Typography>
+        <S.BackButton onClick={() => navigate('/login')}>← Back</S.BackButton>
 
-          {error && (
-            <Alert severity="error" sx={{ marginBottom: spacing.lg }}>
-              {error}
-            </Alert>
-          )}
+        <S.AuthHeader>
+          <h2>Forgot Password?</h2>
+          <p>Enter your email and we'll send you a verification code</p>
+        </S.AuthHeader>
 
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ marginBottom: spacing.xl }}>
-              <GlassTextField
-                fullWidth
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <EmailIcon sx={{ color: glassColors.textSecondary, marginRight: "10px" }} />
-                  ),
-                }}
-              />
-            </Box>
+        {error && <S.ErrorAlert>{error}</S.ErrorAlert>}
 
-            <Box sx={{ marginBottom: spacing.lg }}>
-              <GlassButton onClick={handleSendCode} disabled={loading}>
-                {loading ? "Sending..." : "Send Verification Code"}
-              </GlassButton>
-            </Box>
+        <S.AuthForm>
+          <Input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={setEmail}
+            icon={<Mail size={20} />}
+            onKeyPress={handleKeyPress}
+          />
 
-            <Typography
-              sx={{
-                color: glassColors.textSecondary,
-                textAlign: "center",
-                fontSize: "14px",
-              }}
-            >
-              Remember your password?{" "}
-              <Link
-                onClick={() => navigate("/login")}
-                sx={{
-                  color: glassColors.textPrimary,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  textDecoration: "none",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-              >
-                Login
-              </Link>
-            </Typography>
-          </Box>
-        </GlassCard>
-      </Container>
-    </GradientBackground>
+          <Button onClick={handleSendCode} disabled={loading} loading={loading}>
+            Send Verification Code
+          </Button>
+        </S.AuthForm>
+
+        <S.AuthSwitch>
+          Remember your password?{' '}
+          <button onClick={() => navigate('/login')}>Sign in</button>
+        </S.AuthSwitch>
+      </S.AuthCard>
+
+      <S.ColorBar />
+    </S.Screen>
   );
 };
 

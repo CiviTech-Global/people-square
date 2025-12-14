@@ -11,7 +11,7 @@ import Login from "./presentation/pages/authentication/login";
 import Register from "./presentation/pages/authentication/register";
 import ForgotPassword from "./presentation/pages/authentication/forgotPassword";
 import ForgotPasswordVerificationCode from "./presentation/pages/authentication/forgotPasswordVerificationCode";
-import SetNewPassword from "./presentation/pages/authentication/setNewPasswprd";
+import SetNewPassword from "./presentation/pages/authentication/setNewPassword";
 import HomePage from "./presentation/pages/home";
 import Settings from "./presentation/pages/settings";
 import MyProjects from "./presentation/pages/myProjects";
