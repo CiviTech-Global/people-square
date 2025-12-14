@@ -50,7 +50,7 @@ export const HeaderSection = styled.div`
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-dark);
-    margin: 0 0 var(--spacing-lg) 0;
+    margin: 0 0 0;
     letter-spacing: -0.02em;
     line-height: 1.2;
   }

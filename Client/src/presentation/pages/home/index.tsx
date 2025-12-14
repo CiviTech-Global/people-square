@@ -103,19 +103,6 @@ const HomePage = () => {
     setSelectedProject(null);
   };
 
-  const getInvestmentStatusColor = (status: string) => {
-    switch (status) {
-      case "self-sponsored":
-        return "linear-gradient(135deg, rgba(230, 57, 70, 0.8), rgba(230, 57, 70, 0.6))";
-      case "looking-for-first-sponsor":
-        return "linear-gradient(135deg, rgba(244, 185, 66, 0.8), rgba(244, 185, 66, 0.6))";
-      case "looking-for-more-sponsors":
-        return "linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))";
-      default:
-        return "rgba(45, 158, 73, 0.2)";
-    }
-  };
-
   const getInvestmentStatusLabel = (status: string) => {
     switch (status) {
       case "self-sponsored":
@@ -219,11 +206,7 @@ const HomePage = () => {
                       <Chip>
                         {getInvestmentStatusLabel(project.investmentStatus)}
                       </Chip>
-                      {project.isRegistered && (
-                        <Chip>
-                          Registered
-                        </Chip>
-                      )}
+                      {project.isRegistered && <Chip>Registered</Chip>}
                       {project.files && project.files.length > 0 && (
                         <Chip>
                           <FileText size={14} />
@@ -252,7 +235,6 @@ const HomePage = () => {
         onClose={handleCloseDetails}
         showActions={false}
       />
-
     </HomeContainer>
   );
 };
