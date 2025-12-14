@@ -175,6 +175,176 @@ export const NewProjectButton = styled.button`
   }
 `;
 
+export const ActionsDropdown = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+export const ActionsDropdownButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-dark);
+  border: 2px solid var(--color-dark);
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-darker);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+
+    &::before {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-dark);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+export const ActionsDropdownMenu = styled.div`
+  position: absolute;
+  top: calc(100% + var(--spacing-sm));
+  right: 0;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  min-width: 220px;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-light);
+  padding: var(--spacing-xs) 0;
+  animation: slideDown 0.2s ease-out;
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    right: auto;
+    left: 0;
+    width: 100%;
+  }
+`;
+
+export const ActionsDropdownItem = styled.button`
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: transparent;
+  border: none;
+  color: var(--color-dark);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  transition: all var(--transition-fast);
+  text-align: left;
+  position: relative;
+  margin: 0 var(--spacing-xs);
+  border-radius: var(--radius-md);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--color-dark);
+    transform: scaleY(0);
+    transition: transform var(--transition-fast);
+  }
+
+  &:hover {
+    background: var(--color-gray-light);
+    color: var(--color-dark);
+
+    &::before {
+      transform: scaleY(1);
+    }
+
+    svg {
+      transform: translateX(2px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-dark);
+    outline-offset: -2px;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-gray);
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  &:hover svg {
+    color: var(--color-dark);
+  }
+`;
+
 export const ProjectsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));

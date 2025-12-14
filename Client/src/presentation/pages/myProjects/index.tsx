@@ -46,6 +46,9 @@ import {
   LoadingOverlay,
   LoadingSpinner,
   ColorBar,
+  InfoBox,
+  InfoBoxTitle,
+  InfoBoxText,
 } from "./style";
 
 interface FormErrors {
@@ -115,7 +118,8 @@ const MyProjectsPage = () => {
     }
 
     if (formData.demoLink && formData.demoLink.trim()) {
-      const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+      const urlPattern =
+        /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
       if (!urlPattern.test(formData.demoLink)) {
         errors.demoLink = "Invalid URL format";
       }
@@ -134,7 +138,8 @@ const MyProjectsPage = () => {
     }
 
     if (formData.links?.website && formData.links.website.trim()) {
-      const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+      const urlPattern =
+        /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
       if (!urlPattern.test(formData.links.website)) {
         errors.website = "Invalid website URL";
       }
@@ -335,7 +340,9 @@ const MyProjectsPage = () => {
                 <ProjectTitle>{project.title}</ProjectTitle>
                 <ProjectDescription>{project.description}</ProjectDescription>
                 <ChipsContainer>
-                  <Chip color={getInvestmentStatusColor(project.investmentStatus)}>
+                  <Chip
+                    color={getInvestmentStatusColor(project.investmentStatus)}
+                  >
                     {getInvestmentStatusLabel(project.investmentStatus)}
                   </Chip>
                   {project.isRegistered && (
@@ -346,7 +353,8 @@ const MyProjectsPage = () => {
                   {project.files && project.files.length > 0 && (
                     <Chip color="linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))">
                       <FileText size={14} />
-                      {project.files.length} file{project.files.length > 1 ? "s" : ""}
+                      {project.files.length} file
+                      {project.files.length > 1 ? "s" : ""}
                     </Chip>
                   )}
                 </ChipsContainer>
@@ -371,28 +379,17 @@ const MyProjectsPage = () => {
 
           <ModalBody>
             {!editingProject && (
-              <div
-                style={{
-                  background: "linear-gradient(135deg, rgba(45, 158, 73, 0.1), rgba(45, 158, 73, 0.05))",
-                  border: "1px solid rgba(45, 158, 73, 0.2)",
-                  borderRadius: "var(--radius-lg)",
-                  padding: "var(--spacing-lg)",
-                  display: "flex",
-                  gap: "var(--spacing-md)",
-                  alignItems: "flex-start",
-                }}
-              >
-                <FileText size={32} color="var(--color-primary)" style={{ marginTop: "4px" }} />
+              <InfoBox>
+                <FileText size={32} color="var(--color-dark)" />
                 <div>
-                  <p style={{ fontWeight: 700, margin: "0 0 var(--spacing-xs) 0", color: "var(--color-text-primary)" }}>
-                    Ready to upload your files!
-                  </p>
-                  <p style={{ margin: 0, fontSize: "0.9rem", color: "var(--color-text-secondary)" }}>
-                    You can attach proposal and white paper documents (PDF, DOC, DOCX, PPT, PPTX). Files will be
-                    uploaded when you create the project.
-                  </p>
+                  <InfoBoxTitle>Ready to upload your files!</InfoBoxTitle>
+                  <InfoBoxText>
+                    You can attach proposal and white paper documents (PDF, DOC,
+                    DOCX, PPT, PPTX). Files will be uploaded when you create the
+                    project.
+                  </InfoBoxText>
                 </div>
-              </div>
+              </InfoBox>
             )}
 
             <FormField>
@@ -400,11 +397,15 @@ const MyProjectsPage = () => {
               <FormInput
                 id="title"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 placeholder="Enter project title"
                 className={formErrors.title ? "error" : ""}
               />
-              {formErrors.title && <ErrorMessage>{formErrors.title}</ErrorMessage>}
+              {formErrors.title && (
+                <ErrorMessage>{formErrors.title}</ErrorMessage>
+              )}
             </FormField>
 
             <FormField>
@@ -412,12 +413,16 @@ const MyProjectsPage = () => {
               <FormTextarea
                 id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 placeholder="Enter project description"
                 className={formErrors.description ? "error" : ""}
                 style={{ minHeight: "100px" }}
               />
-              {formErrors.description && <ErrorMessage>{formErrors.description}</ErrorMessage>}
+              {formErrors.description && (
+                <ErrorMessage>{formErrors.description}</ErrorMessage>
+              )}
             </FormField>
 
             <FormField>
@@ -425,7 +430,9 @@ const MyProjectsPage = () => {
               <FormTextarea
                 id="readme"
                 value={formData.readme}
-                onChange={(e) => setFormData({ ...formData, readme: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, readme: e.target.value })
+                }
                 placeholder="Detailed project information, setup instructions, etc."
                 style={{ minHeight: "120px" }}
               />
@@ -440,7 +447,9 @@ const MyProjectsPage = () => {
                 tabIndex={0}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
-                    (document.getElementById("proposal") as HTMLInputElement)?.click();
+                    (
+                      document.getElementById("proposal") as HTMLInputElement
+                    )?.click();
                   }
                 }}
               >
@@ -455,9 +464,11 @@ const MyProjectsPage = () => {
                 />
                 {proposalFile ? (
                   <FileUploadedInfo>
-                    <FileText size={48} color="var(--color-primary)" />
+                    <FileText size={48} color="var(--color-dark)" />
                     <p>{proposalFile.name}</p>
-                    <span>{(proposalFile.size / 1024 / 1024).toFixed(2)} MB</span>
+                    <span>
+                      {(proposalFile.size / 1024 / 1024).toFixed(2)} MB
+                    </span>
                     <RemoveFileButton
                       onClick={(e) => {
                         e.preventDefault();
@@ -467,17 +478,21 @@ const MyProjectsPage = () => {
                       Remove file
                     </RemoveFileButton>
                   </FileUploadedInfo>
-                ) : editingProject && getFileByType(editingProject, "proposal") ? (
+                ) : editingProject &&
+                  getFileByType(editingProject, "proposal") ? (
                   <FileUploadedInfo>
                     <FileText size={48} color="var(--color-text-secondary)" />
                     <p style={{ color: "var(--color-text-secondary)" }}>
-                      Current: {getFileByType(editingProject, "proposal")?.originalName}
+                      Current:{" "}
+                      {getFileByType(editingProject, "proposal")?.originalName}
                     </p>
-                    <span style={{ color: "var(--color-primary)" }}>Click to replace</span>
+                    <span style={{ color: "var(--color-dark)" }}>
+                      Click to replace
+                    </span>
                   </FileUploadedInfo>
                 ) : (
                   <FileUploadPlaceholder>
-                    <FileText size={48} color="var(--color-primary)" />
+                    <FileText size={48} color="var(--color-dark)" />
                     <p>Drop proposal file here or click to browse</p>
                     <span>Supports: PDF, DOC, DOCX, PPT, PPTX (Max 10MB)</span>
                   </FileUploadPlaceholder>
@@ -494,7 +509,9 @@ const MyProjectsPage = () => {
                 tabIndex={0}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
-                    (document.getElementById("whitepaper") as HTMLInputElement)?.click();
+                    (
+                      document.getElementById("whitepaper") as HTMLInputElement
+                    )?.click();
                   }
                 }}
               >
@@ -509,9 +526,11 @@ const MyProjectsPage = () => {
                 />
                 {whitepaperFile ? (
                   <FileUploadedInfo>
-                    <FileText size={48} color="var(--color-primary)" />
+                    <FileText size={48} color="var(--color-dark)" />
                     <p>{whitepaperFile.name}</p>
-                    <span>{(whitepaperFile.size / 1024 / 1024).toFixed(2)} MB</span>
+                    <span>
+                      {(whitepaperFile.size / 1024 / 1024).toFixed(2)} MB
+                    </span>
                     <RemoveFileButton
                       onClick={(e) => {
                         e.preventDefault();
@@ -521,17 +540,24 @@ const MyProjectsPage = () => {
                       Remove file
                     </RemoveFileButton>
                   </FileUploadedInfo>
-                ) : editingProject && getFileByType(editingProject, "whitepaper") ? (
+                ) : editingProject &&
+                  getFileByType(editingProject, "whitepaper") ? (
                   <FileUploadedInfo>
                     <FileText size={48} color="var(--color-text-secondary)" />
                     <p style={{ color: "var(--color-text-secondary)" }}>
-                      Current: {getFileByType(editingProject, "whitepaper")?.originalName}
+                      Current:{" "}
+                      {
+                        getFileByType(editingProject, "whitepaper")
+                          ?.originalName
+                      }
                     </p>
-                    <span style={{ color: "var(--color-primary)" }}>Click to replace</span>
+                    <span style={{ color: "var(--color-dark)" }}>
+                      Click to replace
+                    </span>
                   </FileUploadedInfo>
                 ) : (
                   <FileUploadPlaceholder>
-                    <FileText size={48} color="var(--color-primary)" />
+                    <FileText size={48} color="var(--color-dark)" />
                     <p>Drop white paper here or click to browse</p>
                     <span>Supports: PDF, DOC, DOCX, PPT, PPTX (Max 10MB)</span>
                   </FileUploadPlaceholder>
@@ -544,11 +570,15 @@ const MyProjectsPage = () => {
               <FormInput
                 id="demo"
                 value={formData.demoLink}
-                onChange={(e) => setFormData({ ...formData, demoLink: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, demoLink: e.target.value })
+                }
                 placeholder="https://demo.yourproject.com"
                 className={formErrors.demoLink ? "error" : ""}
               />
-              {formErrors.demoLink && <ErrorMessage>{formErrors.demoLink}</ErrorMessage>}
+              {formErrors.demoLink && (
+                <ErrorMessage>{formErrors.demoLink}</ErrorMessage>
+              )}
             </FormField>
 
             <FormRow>
@@ -566,7 +596,9 @@ const MyProjectsPage = () => {
                   placeholder="https://github.com/username/repo"
                   className={formErrors.github ? "error" : ""}
                 />
-                {formErrors.github && <ErrorMessage>{formErrors.github}</ErrorMessage>}
+                {formErrors.github && (
+                  <ErrorMessage>{formErrors.github}</ErrorMessage>
+                )}
               </FormField>
 
               <FormField>
@@ -583,7 +615,9 @@ const MyProjectsPage = () => {
                   placeholder="https://linkedin.com/in/username"
                   className={formErrors.linkedin ? "error" : ""}
                 />
-                {formErrors.linkedin && <ErrorMessage>{formErrors.linkedin}</ErrorMessage>}
+                {formErrors.linkedin && (
+                  <ErrorMessage>{formErrors.linkedin}</ErrorMessage>
+                )}
               </FormField>
             </FormRow>
 
@@ -602,7 +636,9 @@ const MyProjectsPage = () => {
                   placeholder="https://yourproject.com"
                   className={formErrors.website ? "error" : ""}
                 />
-                {formErrors.website && <ErrorMessage>{formErrors.website}</ErrorMessage>}
+                {formErrors.website && (
+                  <ErrorMessage>{formErrors.website}</ErrorMessage>
+                )}
               </FormField>
 
               <FormField>
@@ -618,8 +654,12 @@ const MyProjectsPage = () => {
                   }
                 >
                   <option value="self-sponsored">Self Sponsored</option>
-                  <option value="looking-for-first-sponsor">Looking for First Sponsor</option>
-                  <option value="looking-for-more-sponsors">Looking for More Sponsors</option>
+                  <option value="looking-for-first-sponsor">
+                    Looking for First Sponsor
+                  </option>
+                  <option value="looking-for-more-sponsors">
+                    Looking for More Sponsors
+                  </option>
                 </FormSelect>
               </FormField>
             </FormRow>
@@ -646,7 +686,12 @@ const MyProjectsPage = () => {
                 Cancel
               </CancelButton>
               <SubmitButton onClick={handleSubmit} disabled={submitting}>
-                {submitting && <Loader size={20} style={{ animation: "spin 1s linear infinite" }} />}
+                {submitting && (
+                  <Loader
+                    size={20}
+                    style={{ animation: "spin 1s linear infinite" }}
+                  />
+                )}
                 {submitting
                   ? "Uploading..."
                   : editingProject
@@ -661,11 +706,21 @@ const MyProjectsPage = () => {
       {/* Loading Overlay */}
       <LoadingOverlay visible={submitting}>
         <LoadingSpinner />
-        <h3 style={{ color: "var(--color-text-primary)", margin: "var(--spacing-lg) 0 0 0" }}>
+        <h3
+          style={{
+            color: "var(--color-text-primary)",
+            margin: "var(--spacing-lg) 0 0 0",
+          }}
+        >
           {editingProject ? "Updating project..." : "Creating project..."}
         </h3>
         {(proposalFile || whitepaperFile) && (
-          <p style={{ color: "var(--color-text-secondary)", margin: "var(--spacing-sm) 0 0 0" }}>
+          <p
+            style={{
+              color: "var(--color-text-secondary)",
+              margin: "var(--spacing-sm) 0 0 0",
+            }}
+          >
             Uploading files, please wait...
           </p>
         )}

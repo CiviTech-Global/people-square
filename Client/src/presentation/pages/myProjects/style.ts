@@ -111,7 +111,7 @@ export const NewProjectButton = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-dark);
     outline-offset: 2px;
   }
 
@@ -192,7 +192,7 @@ export const ProjectCard = styled.div`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-dark);
     outline-offset: 2px;
   }
 
@@ -342,7 +342,7 @@ export const LoadingText = styled.p`
     width: 20px;
     height: 20px;
     border: 3px solid var(--color-gray-light);
-    border-top-color: var(--color-blue);
+    border-top-color: var(--color-dark);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -362,18 +362,19 @@ export const ModalOverlay = styled.div<{ open: boolean }>`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
   justify-content: center;
   align-items: center;
   z-index: 1300;
   padding: var(--spacing-lg);
+  animation: fadeIn 0.2s ease-out;
 `;
 
 export const ModalContent = styled.div`
   background: var(--color-white);
   border-radius: var(--radius-lg);
-  max-width: 700px;
+  max-width: 720px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -383,6 +384,8 @@ export const ModalContent = styled.div`
   position: relative;
   scrollbar-width: thin;
   scrollbar-color: var(--color-gray-light) transparent;
+  display: flex;
+  flex-direction: column;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -426,6 +429,7 @@ export const ModalHeader = styled.div`
   align-items: center;
   padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
   border-bottom: 1px solid var(--color-gray-light);
+  flex-shrink: 0;
 
   h2 {
     font-size: 1.5rem;
@@ -465,7 +469,39 @@ export const ModalBody = styled.div`
   padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl);
+  flex: 1;
+  overflow-y: auto;
+`;
+
+export const InfoBox = styled.div`
+  background: var(--color-light);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+`;
+
+export const InfoBoxTitle = styled.p`
+  font-weight: 600;
+  margin: 0 0 var(--spacing-xs) 0;
+  color: var(--color-dark);
+  font-size: 0.95rem;
+  line-height: 1.4;
+`;
+
+export const InfoBoxText = styled.p`
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.5;
 `;
 
 export const ModalFooter = styled.div`
@@ -474,6 +510,8 @@ export const ModalFooter = styled.div`
   padding: var(--spacing-lg) var(--spacing-xl);
   border-top: 1px solid var(--color-gray-light);
   justify-content: flex-end;
+  flex-shrink: 0;
+  margin-top: auto;
 
   @media (max-width: 480px) {
     flex-direction: column-reverse;
@@ -483,14 +521,14 @@ export const ModalFooter = styled.div`
 export const FormField = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 `;
 
 export const FormLabel = styled.label`
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-dark);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
   line-height: 1.4;
 `;
 
@@ -677,7 +715,7 @@ export const FormSelect = styled.select<{ hasError?: boolean; hasSuccess?: boole
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%234A90D9' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%231a1a1a' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right var(--spacing-md) center;
   padding-right: calc(var(--spacing-xl) + var(--spacing-md));
@@ -731,7 +769,7 @@ export const FormSelect = styled.select<{ hasError?: boolean; hasSuccess?: boole
   }
 
   option:checked {
-    background: var(--color-blue);
+    background: var(--color-dark);
     color: var(--color-white);
   }
 `;
@@ -780,19 +818,16 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 160px;
+  min-height: 180px;
   border: 1px dashed
     ${(props) =>
       props.isDragActive
-        ? "var(--color-blue)"
+        ? "var(--color-dark)"
         : "var(--color-gray-light)"};
   border-radius: var(--radius-md);
-  background: ${(props) =>
-    props.isDragActive
-      ? "rgba(74, 144, 217, 0.05)"
-      : "var(--color-light)"};
+  background: var(--color-light);
   cursor: pointer;
-  transition: all var(--transition-default);
+  transition: all var(--transition-fast);
   padding: var(--spacing-xl);
   text-align: center;
   position: relative;
@@ -805,7 +840,7 @@ export const FileUploadArea = styled.label<{ isDragActive?: boolean }>`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(74, 144, 217, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(26, 26, 26, 0.05), transparent);
     transition: left 0.5s;
   }
 
@@ -852,13 +887,14 @@ export const FileUploadPlaceholder = styled.div`
     font-weight: 600;
     color: var(--color-dark);
     margin: 0;
-    line-height: 1.4;
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 
   span {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: var(--color-gray);
-    line-height: 1.4;
+    line-height: 1.5;
   }
 `;
 
@@ -867,18 +903,22 @@ export const FileUploadedInfo = styled.div`
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
+  width: 100%;
 
   p {
     font-weight: 600;
     color: var(--color-dark);
     margin: 0;
-    line-height: 1.4;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: center;
+    word-break: break-word;
   }
 
   span {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: var(--color-gray);
-    line-height: 1.4;
+    line-height: 1.5;
   }
 `;
 
@@ -923,14 +963,22 @@ export const CheckboxField = styled.div`
   gap: var(--spacing-md);
   padding: var(--spacing-md) var(--spacing-lg);
   background: var(--color-light);
+  border: 1px solid var(--color-gray-light);
   border-radius: var(--radius-md);
   cursor: pointer;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background: var(--color-gray-light);
+    border-color: var(--color-gray);
+  }
 
   input {
     width: 20px;
     height: 20px;
     cursor: pointer;
-    accent-color: var(--color-blue);
+    accent-color: var(--color-dark);
+    flex-shrink: 0;
   }
 
   label {
@@ -938,6 +986,8 @@ export const CheckboxField = styled.div`
     font-weight: 500;
     color: var(--color-dark);
     margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 `;
 
@@ -969,7 +1019,7 @@ export const CancelButton = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-dark);
     outline-offset: 2px;
   }
 
@@ -1028,7 +1078,7 @@ export const SubmitButton = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-dark);
     outline-offset: 2px;
   }
 
@@ -1099,7 +1149,7 @@ export const AlertBox = styled.div<AlertBoxProps>`
         ? 'var(--color-error)'
         : props.type === 'success'
           ? 'var(--color-success)'
-          : 'var(--color-blue)'};
+          : 'var(--color-dark)'};
   }
 
   @keyframes slideDown {

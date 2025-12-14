@@ -1,30 +1,31 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Box,
-  Typography,
-  IconButton,
-  Button,
-  Chip,
-  Divider,
-  Stack,
-  Link,
-} from "@mui/material";
-import {
-  Close as CloseIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  GitHub as GitHubIcon,
-  LinkedIn as LinkedInIcon,
-  Language as WebsiteIcon,
-  Link as LinkIcon,
-} from "@mui/icons-material";
-import { colors } from "../themes";
+import { X, Edit, Trash2, Github, Linkedin, Globe, Link as LinkIcon, FileText } from "lucide-react";
 import { FilePreviewWidget } from "./FilePreviewWidget";
 import type { Project, ProjectFile } from "../../infrastructure/api/project.service";
 import { ProjectService } from "../../infrastructure/api/project.service";
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalTitle,
+  ModalChip,
+  ModalChipContainer,
+  SectionTitle,
+  SectionContent,
+  SectionDivider,
+  ReadmeBox,
+  LinksContainer,
+  LinkItem,
+  FilesContainer,
+  EmptyFilesBox,
+  ButtonGroup,
+  CancelButton,
+  DeleteButton,
+  EditButton,
+  CloseButton,
+} from "./ProjectDetailsModal.styles";
 
 interface ProjectDetailsModalProps {
   open: boolean;
@@ -48,13 +49,13 @@ export const ProjectDetailsModal = ({
   const getInvestmentStatusColor = (status: string) => {
     switch (status) {
       case "self-sponsored":
-        return colors.primary.main;
+        return "linear-gradient(135deg, rgba(230, 57, 70, 0.8), rgba(230, 57, 70, 0.6))";
       case "looking-for-first-sponsor":
-        return "#FFA726";
+        return "linear-gradient(135deg, rgba(244, 185, 66, 0.8), rgba(244, 185, 66, 0.6))";
       case "looking-for-more-sponsors":
-        return "#42A5F5";
+        return "linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))";
       default:
-        return colors.text.muted;
+        return "var(--color-gray-light)";
     }
   };
 
@@ -76,262 +77,111 @@ export const ProjectDetailsModal = ({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="md"
-      fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: "16px",
-          maxHeight: "90vh",
-        },
-      }}
-    >
-      <DialogTitle
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          pb: 2,
-          borderBottom: `1px solid ${colors.primary.lighter}`,
-        }}
-      >
-        <Box sx={{ flex: 1, pr: 2 }}>
-          <Typography variant="h5" sx={{ fontWeight: 700, color: colors.text.primary, mb: 1 }}>
-            {project.title}
-          </Typography>
-          <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-            <Chip
-              label={getInvestmentStatusLabel(project.investmentStatus)}
-              size="small"
-              sx={{
-                backgroundColor: getInvestmentStatusColor(project.investmentStatus),
-                color: colors.text.light,
-                fontWeight: 500,
-              }}
-            />
-            {project.isRegistered && (
-              <Chip label="Registered" size="small" color="success" />
-            )}
-          </Box>
-        </Box>
-        <IconButton onClick={onClose} sx={{ color: colors.text.secondary }}>
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+    <ModalOverlay open={open} onClick={onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <ModalHeader>
+          <div>
+            <ModalTitle>{project.title}</ModalTitle>
+            <ModalChipContainer>
+              <ModalChip color={getInvestmentStatusColor(project.investmentStatus)}>
+                {getInvestmentStatusLabel(project.investmentStatus)}
+              </ModalChip>
+              {project.isRegistered && (
+                <ModalChip color="linear-gradient(135deg, rgba(45, 158, 73, 0.8), rgba(45, 158, 73, 0.6))">
+                  Registered
+                </ModalChip>
+              )}
+            </ModalChipContainer>
+          </div>
+          <ModalCloseButton onClick={onClose}>
+            <X size={24} />
+          </ModalCloseButton>
+        </ModalHeader>
 
-      <DialogContent sx={{ pt: 3 }}>
-        <Stack spacing={3}>
+        <ModalBody>
           {/* Description */}
-          <Box>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                fontWeight: 700,
-                color: colors.text.primary,
-                mb: 1,
-                textTransform: "uppercase",
-                fontSize: "0.75rem",
-                letterSpacing: "0.5px",
-              }}
-            >
-              Description
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: colors.text.secondary, lineHeight: 1.7 }}
-            >
-              {project.description}
-            </Typography>
-          </Box>
+          <div>
+            <SectionTitle>Description</SectionTitle>
+            <SectionContent>{project.description}</SectionContent>
+          </div>
 
           {/* README */}
           {project.readme && (
             <>
-              <Divider sx={{ borderColor: colors.primary.lighter }} />
-              <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    fontWeight: 700,
-                    color: colors.text.primary,
-                    mb: 1,
-                    textTransform: "uppercase",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.5px",
-                  }}
-                >
-                  README
-                </Typography>
-                <Box
-                  sx={{
-                    backgroundColor: colors.background.lightGreen,
-                    borderRadius: "8px",
-                    p: 2,
-                    border: `1px solid ${colors.primary.lighter}`,
-                    maxHeight: "400px",
-                    overflowY: "auto",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: colors.text.secondary,
-                      whiteSpace: "pre-wrap",
-                      wordBreak: "break-word",
-                      overflowWrap: "break-word",
-                      fontFamily: "monospace",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    {project.readme}
-                  </Typography>
-                </Box>
-              </Box>
+              <SectionDivider />
+              <div>
+                <SectionTitle>README</SectionTitle>
+                <ReadmeBox>
+                  <pre>{project.readme}</pre>
+                </ReadmeBox>
+              </div>
             </>
           )}
 
           {/* Links */}
           {(project.demoLink || project.links?.github || project.links?.linkedin || project.links?.website) && (
             <>
-              <Divider sx={{ borderColor: colors.primary.lighter }} />
-              <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    fontWeight: 700,
-                    color: colors.text.primary,
-                    mb: 2,
-                    textTransform: "uppercase",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.5px",
-                  }}
-                >
-                  Links
-                </Typography>
-                <Stack spacing={1.5}>
+              <SectionDivider />
+              <div>
+                <SectionTitle>Links</SectionTitle>
+                <LinksContainer>
                   {project.demoLink && (
-                    <Link
+                    <LinkItem
                       href={project.demoLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: colors.primary.main,
-                        textDecoration: "none",
-                        "&:hover": {
-                          textDecoration: "underline",
-                        },
-                      }}
                     >
-                      <LinkIcon sx={{ fontSize: 20 }} />
-                      <Typography variant="body2">Demo: {project.demoLink}</Typography>
-                    </Link>
+                      <LinkIcon size={18} />
+                      <span>Demo: {project.demoLink}</span>
+                    </LinkItem>
                   )}
                   {project.links?.github && (
-                    <Link
+                    <LinkItem
                       href={project.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: colors.text.primary,
-                        textDecoration: "none",
-                        "&:hover": {
-                          color: colors.primary.main,
-                        },
-                      }}
                     >
-                      <GitHubIcon sx={{ fontSize: 20 }} />
-                      <Typography variant="body2">{project.links.github}</Typography>
-                    </Link>
+                      <Github size={18} />
+                      <span>{project.links.github}</span>
+                    </LinkItem>
                   )}
                   {project.links?.linkedin && (
-                    <Link
+                    <LinkItem
                       href={project.links.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#0A66C2",
-                        textDecoration: "none",
-                        "&:hover": {
-                          color: colors.primary.main,
-                        },
-                      }}
                     >
-                      <LinkedInIcon sx={{ fontSize: 20 }} />
-                      <Typography variant="body2">{project.links.linkedin}</Typography>
-                    </Link>
+                      <Linkedin size={18} />
+                      <span>{project.links.linkedin}</span>
+                    </LinkItem>
                   )}
                   {project.links?.website && (
-                    <Link
+                    <LinkItem
                       href={project.links.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: colors.primary.main,
-                        textDecoration: "none",
-                        "&:hover": {
-                          textDecoration: "underline",
-                        },
-                      }}
                     >
-                      <WebsiteIcon sx={{ fontSize: 20 }} />
-                      <Typography variant="body2">{project.links.website}</Typography>
-                    </Link>
+                      <Globe size={18} />
+                      <span>{project.links.website}</span>
+                    </LinkItem>
                   )}
-                </Stack>
-              </Box>
+                </LinksContainer>
+              </div>
             </>
           )}
 
           {/* Files */}
           {project.files && project.files.length > 0 && (
             <>
-              <Divider sx={{ borderColor: colors.primary.lighter }} />
-              <Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    mb: 2,
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      fontWeight: 700,
-                      color: colors.text.primary,
-                      textTransform: "uppercase",
-                      fontSize: "0.75rem",
-                      letterSpacing: "0.5px",
-                    }}
-                  >
-                    Attached Files
-                  </Typography>
-                  <Chip
-                    label={`${project.files.length} file${project.files.length > 1 ? 's' : ''}`}
-                    size="small"
-                    sx={{
-                      backgroundColor: colors.primary.lighter,
-                      color: colors.primary.main,
-                      fontWeight: 600,
-                    }}
-                  />
-                </Box>
-                <Stack spacing={2}>
+              <SectionDivider />
+              <div>
+                <FilesContainer>
+                  <SectionTitle>Attached Files</SectionTitle>
+                  <ModalChip color="var(--color-gray-light)">
+                    {project.files.length} file{project.files.length > 1 ? "s" : ""}
+                  </ModalChip>
+                </FilesContainer>
+                <div style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-md)", marginTop: "var(--spacing-md)" }}>
                   {project.files.map((file) => (
                     <FilePreviewWidget
                       key={file.id}
@@ -339,108 +189,42 @@ export const ProjectDetailsModal = ({
                       onDownload={handleDownloadFile}
                     />
                   ))}
-                </Stack>
-              </Box>
+                </div>
+              </div>
             </>
           )}
 
           {/* No Files Message */}
           {(!project.files || project.files.length === 0) && (
             <>
-              <Divider sx={{ borderColor: colors.primary.lighter }} />
-              <Box
-                sx={{
-                  textAlign: "center",
-                  py: 4,
-                  background: colors.background.lightGreen,
-                  borderRadius: "12px",
-                  border: `1px dashed ${colors.primary.lighter}`,
-                }}
-              >
-                <Typography variant="body2" sx={{ color: colors.text.muted }}>
-                  No files attached to this project yet
-                </Typography>
-              </Box>
+              <SectionDivider />
+              <EmptyFilesBox>
+                <FileText size={48} color="var(--color-gray)" />
+                <p>No files attached to this project yet</p>
+              </EmptyFilesBox>
             </>
           )}
-        </Stack>
-      </DialogContent>
+        </ModalBody>
 
-      <DialogActions
-        sx={{
-          p: 2.5,
-          borderTop: `1px solid ${colors.primary.lighter}`,
-          gap: 1,
-        }}
-      >
-        {showActions ? (
-          <>
-            <Button
-              onClick={onClose}
-              sx={{
-                textTransform: "none",
-                color: colors.text.secondary,
-                px: 3,
-                borderRadius: "8px",
-              }}
-            >
-              Close
-            </Button>
-            <Box sx={{ flex: 1 }} />
-            <Button
-              onClick={() => onDelete && onDelete(project.id)}
-              startIcon={<DeleteIcon />}
-              sx={{
-                textTransform: "none",
-                color: "#f44336",
-                px: 3,
-                borderRadius: "8px",
-                "&:hover": {
-                  background: "rgba(244, 67, 54, 0.1)",
-                },
-              }}
-            >
-              Delete
-            </Button>
-            <Button
-              onClick={() => onEdit && onEdit(project)}
-              startIcon={<EditIcon />}
-              variant="contained"
-              sx={{
-                background: colors.primary.main,
-                color: colors.text.light,
-                textTransform: "none",
-                px: 3,
-                borderRadius: "8px",
-                fontWeight: 600,
-                "&:hover": {
-                  background: colors.primary.dark,
-                },
-              }}
-            >
-              Edit
-            </Button>
-          </>
-        ) : (
-          <Button
-            onClick={onClose}
-            variant="contained"
-            sx={{
-              background: colors.primary.main,
-              color: colors.text.light,
-              textTransform: "none",
-              px: 4,
-              borderRadius: "8px",
-              fontWeight: 600,
-              "&:hover": {
-                background: colors.primary.dark,
-              },
-            }}
-          >
-            Close
-          </Button>
-        )}
-      </DialogActions>
-    </Dialog>
+        <ModalFooter>
+          {showActions ? (
+            <ButtonGroup>
+              <CancelButton onClick={onClose}>Close</CancelButton>
+              <div style={{ flex: 1 }} />
+              <DeleteButton onClick={() => onDelete && onDelete(project.id)}>
+                <Trash2 size={18} />
+                Delete
+              </DeleteButton>
+              <EditButton onClick={() => onEdit && onEdit(project)}>
+                <Edit size={18} />
+                Edit
+              </EditButton>
+            </ButtonGroup>
+          ) : (
+            <CloseButton onClick={onClose}>Close</CloseButton>
+          )}
+        </ModalFooter>
+      </ModalContent>
+    </ModalOverlay>
   );
 };

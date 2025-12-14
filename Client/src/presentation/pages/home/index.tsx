@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { LogOut, User, Plus, FileText } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { LogOut, User, Plus, FileText, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar, GlassAppBar, ProjectDetailsModal } from "../../components";
 import { useAuth } from "../../../application/context/AuthContext";
@@ -13,7 +13,10 @@ import {
   HeaderSection,
   ProjectsSection,
   SectionHeader,
-  NewProjectButton,
+  ActionsDropdown,
+  ActionsDropdownButton,
+  ActionsDropdownMenu,
+  ActionsDropdownItem,
   ProjectsGrid,
   ProjectCard,
   ProjectTitle,
@@ -39,6 +42,8 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [showActionsMenu, setShowActionsMenu] = useState(false);
+  const actionsMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (user?.role === "startup-owner") {
@@ -47,6 +52,25 @@ const HomePage = () => {
       setLoading(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        actionsMenuRef.current &&
+        !actionsMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowActionsMenu(false);
+      }
+    };
+
+    if (showActionsMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showActionsMenu]);
 
   const loadProjects = async () => {
     try {
@@ -144,11 +168,29 @@ const HomePage = () => {
         {user?.role === "startup-owner" && (
           <ProjectsSection>
             <SectionHeader>
-              <h2>My Projects ({projects.length})</h2>
-              <NewProjectButton onClick={() => navigate("/my-projects")}>
-                <Plus size={20} />
-                New Project
-              </NewProjectButton>
+              <h2>Applicants waiting for you ({projects.length})</h2>
+              <ActionsDropdown ref={actionsMenuRef}>
+                <ActionsDropdownButton
+                  onClick={() => setShowActionsMenu(!showActionsMenu)}
+                >
+                  <Plus size={20} />
+                  Actions
+                  <ChevronDown size={18} />
+                </ActionsDropdownButton>
+                {showActionsMenu && (
+                  <ActionsDropdownMenu>
+                    <ActionsDropdownItem
+                      onClick={() => {
+                        navigate("/my-projects");
+                        setShowActionsMenu(false);
+                      }}
+                    >
+                      <Plus size={18} />
+                      Add new project
+                    </ActionsDropdownItem>
+                  </ActionsDropdownMenu>
+                )}
+              </ActionsDropdown>
             </SectionHeader>
 
             {loading ? (
@@ -171,9 +213,15 @@ const HomePage = () => {
                     onClick={() => handleViewDetails(project)}
                   >
                     <ProjectTitle>{project.title}</ProjectTitle>
-                    <ProjectDescription>{project.description}</ProjectDescription>
+                    <ProjectDescription>
+                      {project.description}
+                    </ProjectDescription>
                     <ChipsContainer>
-                      <Chip color={getInvestmentStatusColor(project.investmentStatus)}>
+                      <Chip
+                        color={getInvestmentStatusColor(
+                          project.investmentStatus
+                        )}
+                      >
                         {getInvestmentStatusLabel(project.investmentStatus)}
                       </Chip>
                       {project.isRegistered && (
@@ -184,11 +232,14 @@ const HomePage = () => {
                       {project.files && project.files.length > 0 && (
                         <Chip color="linear-gradient(135deg, rgba(74, 144, 217, 0.8), rgba(74, 144, 217, 0.6))">
                           <FileText size={14} />
-                          {project.files.length} file{project.files.length > 1 ? 's' : ''}
+                          {project.files.length} file
+                          {project.files.length > 1 ? "s" : ""}
                         </Chip>
                       )}
                     </ChipsContainer>
-                    <ViewDetailsButton onClick={() => handleViewDetails(project)}>
+                    <ViewDetailsButton
+                      onClick={() => handleViewDetails(project)}
+                    >
                       View Details
                     </ViewDetailsButton>
                   </ProjectCard>
