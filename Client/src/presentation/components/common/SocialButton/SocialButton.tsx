@@ -32,7 +32,7 @@ const StyledSocialButton = styled.button<{ disabled?: boolean }>`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 

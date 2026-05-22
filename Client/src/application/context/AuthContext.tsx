@@ -2,11 +2,27 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { AuthService } from "../../infrastructure/api/auth.service";
 
-interface User {
+export interface SocialLinks {
+  github?: string;
+  linkedin?: string;
+  twitter?: string;
+  website?: string;
+}
+
+export interface User {
   id: string;
   fullName: string;
   email: string;
   role: string;
+  avatar?: string | null;
+  bio?: string | null;
+  skills?: string[] | null;
+  interests?: string[] | null;
+  headline?: string | null;
+  socialLinks?: SocialLinks | null;
+  profileCompleted?: boolean;
+  location?: string | null;
+  company?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -80,4 +96,3 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
-

@@ -17,6 +17,8 @@ export type InvestmentStatus =
   | "looking-for-first-sponsor"
   | "looking-for-more-sponsors";
 
+export type ProjectStage = "idea" | "development" | "launched" | "scaling";
+
 export interface ProjectLinks {
   github?: string;
   linkedin?: string;
@@ -51,6 +53,25 @@ export class Project {
     default: "self-sponsored",
   })
   investmentStatus!: InvestmentStatus;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  category?: string;
+
+  @Column({ type: 'simple-array', nullable: true })
+  tags!: string[] | null;
+
+  @Column({
+    type: 'enum',
+    enum: ['idea', 'development', 'launched', 'scaling'],
+    default: 'idea',
+  })
+  stage!: ProjectStage;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  coverImage?: string;
+
+  @Column({ type: 'int', default: 0 })
+  viewCount!: number;
 
   @Column({ type: "boolean", default: false })
   isRegistered!: boolean;

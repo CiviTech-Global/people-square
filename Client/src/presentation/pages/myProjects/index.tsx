@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { Plus, X, FileText, Loader } from "lucide-react";
-import { Sidebar, GlassAppBar, ProjectDetailsModal } from "../../components";
+import { AppShell, ProjectDetailsModal } from "../../components";
 import {
   ProjectService,
   type Project,
   type CreateProjectData,
 } from "../../../infrastructure/api/project.service";
 import {
-  MyProjectsContainer,
-  ContentWrapper,
   PageHeader,
   NewProjectButton,
   ProjectsGrid,
@@ -291,11 +289,7 @@ const MyProjectsPage = () => {
   };
 
   return (
-    <MyProjectsContainer>
-      <Sidebar />
-      <ContentWrapper>
-        <GlassAppBar title="My Projects" />
-
+    <AppShell title="My Projects">
         {error && (
           <AlertBox type="error">
             <span>{error}</span>
@@ -362,7 +356,6 @@ const MyProjectsPage = () => {
             ))}
           </ProjectsGrid>
         )}
-      </ContentWrapper>
 
       {/* Create/Edit Modal */}
       <ModalOverlay open={openDialog} onClick={handleCloseDialog}>
@@ -733,7 +726,7 @@ const MyProjectsPage = () => {
         showActions={true}
       />
 
-    </MyProjectsContainer>
+    </AppShell>
   );
 };
 

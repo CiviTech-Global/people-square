@@ -11,6 +11,13 @@ import * as bcrypt from "bcrypt";
 
 export type UserRole = "startup-owner" | "investor" | "organization" | "citizen";
 
+export interface SocialLinks {
+  github?: string;
+  linkedin?: string;
+  twitter?: string;
+  website?: string;
+}
+
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -30,6 +37,33 @@ export class User {
 
   @Column({ type: "varchar", length: 255 })
   password!: string;
+
+  @Column({ type: "varchar", length: 500, nullable: true })
+  avatar!: string | null;
+
+  @Column({ type: "text", nullable: true })
+  bio!: string | null;
+
+  @Column({ type: "simple-array", nullable: true })
+  skills!: string[] | null;
+
+  @Column({ type: "simple-array", nullable: true })
+  interests!: string[] | null;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  headline!: string | null;
+
+  @Column({ type: "jsonb", nullable: true })
+  socialLinks!: SocialLinks | null;
+
+  @Column({ type: "boolean", default: false })
+  profileCompleted!: boolean;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  location!: string | null;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  company!: string | null;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -51,7 +85,7 @@ export class User {
   }
 
   toJSON() {
-    const { password, ...user } = this;
+    const { password, ...user } = this as any;
     return user;
   }
 }

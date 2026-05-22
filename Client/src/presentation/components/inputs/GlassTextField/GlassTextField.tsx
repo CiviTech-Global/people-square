@@ -21,7 +21,7 @@ const StyledGlassTextField = styled(TextField)({
       },
     },
     "&:hover": {
-      borderColor: "rgba(110, 199, 126, 0.3)",
+      borderColor: "rgba(10, 94, 176, 0.25)",
     },
     "&.Mui-focused": {
       ...glassmorphismStyles.inputFocused,

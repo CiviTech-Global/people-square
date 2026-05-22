@@ -2,7 +2,7 @@ export { GlassCard } from "./GlassCard";
 export { GlassButton } from "./buttons";
 export { GradientBackground } from "./GradientBackground";
 export { GlassTextField, GlassSelect, MenuItem } from "./inputs";
-export { GlassAppBar, Sidebar } from "./layout";
+export { GlassAppBar, Sidebar, AppShell } from "./layout";
 export { ProtectedRoute } from "./routing/ProtectedRoute";
 export { PublicRoute } from "./routing/PublicRoute";
 export { StyledAlert } from "./StyledAlert";

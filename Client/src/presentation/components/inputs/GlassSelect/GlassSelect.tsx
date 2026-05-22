@@ -22,7 +22,7 @@ const StyledGlassSelect = styled(Select)({
     color: glassColors.textSecondary,
   },
   "&:hover": {
-    borderColor: "rgba(110, 199, 126, 0.3)",
+    borderColor: "rgba(10, 94, 176, 0.25)",
   },
   "&.Mui-focused": {
     ...glassmorphismStyles.inputFocused,
@@ -52,12 +52,12 @@ export const GlassSelect = (props: GlassSelectProps) => {
               padding: "12px 16px",
               transition: transitions.default,
               "&:hover": {
-                background: "rgba(110, 199, 126, 0.1)",
+                background: "rgba(10, 94, 176, 0.1)",
               },
               "&.Mui-selected": {
-                background: "rgba(110, 199, 126, 0.15)",
+                background: "rgba(10, 94, 176, 0.15)",
                 "&:hover": {
-                  background: "rgba(110, 199, 126, 0.2)",
+                  background: "rgba(10, 94, 176, 0.2)",
                 },
               },
             },

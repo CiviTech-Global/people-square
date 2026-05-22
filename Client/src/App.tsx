@@ -12,9 +12,14 @@ import Register from "./presentation/pages/authentication/register";
 import ForgotPassword from "./presentation/pages/authentication/forgotPassword";
 import ForgotPasswordVerificationCode from "./presentation/pages/authentication/forgotPasswordVerificationCode";
 import SetNewPassword from "./presentation/pages/authentication/setNewPassword";
+import ProfileSetup from "./presentation/pages/authentication/profileSetup";
 import HomePage from "./presentation/pages/home";
 import Settings from "./presentation/pages/settings";
 import MyProjects from "./presentation/pages/myProjects";
+import Discover from "./presentation/pages/discover";
+import ProjectDetail from "./presentation/pages/projectDetail";
+import Portfolio from "./presentation/pages/portfolio";
+import SavedProjects from "./presentation/pages/saved";
 
 function App() {
   return (
@@ -70,6 +75,14 @@ function App() {
             }
           />
           <Route
+            path="/profile-setup"
+            element={
+              <ProtectedRoute>
+                <ProfileSetup />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/home"
             element={
               <ProtectedRoute>
@@ -82,6 +95,38 @@ function App() {
             element={
               <ProtectedRoute>
                 <MyProjects />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/discover"
+            element={
+              <ProtectedRoute>
+                <Discover />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <ProjectDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/portfolio"
+            element={
+              <ProtectedRoute>
+                <Portfolio />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/saved"
+            element={
+              <ProtectedRoute>
+                <SavedProjects />
               </ProtectedRoute>
             }
           />

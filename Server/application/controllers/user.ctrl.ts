@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { User } from "../../domain/user/user.entity";
 import { UserUtil } from "../../infrastructure/utils/user.util";
 import { UserRepository } from "../../infrastructure/repositories/user.repository";
 import { JwtUtil } from "../../infrastructure/auth/jwt.util";
 import { AuthRequest } from "../../infrastructure/middleware/auth.middleware";
+import { UserRole } from "../../domain/user/user.entity";
 
 export class UserController {
   private userRepository: UserRepository;
@@ -279,6 +279,121 @@ export class UserController {
         success: true,
         message: "User updated successfully",
         data: updatedUser?.toJSON(),
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  };
+
+  public completeProfile = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+      const { bio, headline, skills, interests, socialLinks, location, company } = req.body;
+
+      const user = await this.userRepository.findById(id);
+      if (!user) {
+        res.status(404).json({ success: false, message: "User not found" });
+        return;
+      }
+
+      const updateData: any = {};
+      if (bio !== undefined) updateData.bio = bio;
+      if (headline !== undefined) updateData.headline = headline;
+      if (skills !== undefined) updateData.skills = skills;
+      if (interests !== undefined) updateData.interests = interests;
+      if (socialLinks !== undefined) updateData.socialLinks = socialLinks;
+      if (location !== undefined) updateData.location = location;
+      if (company !== undefined) updateData.company = company;
+      updateData.profileCompleted = true;
+
+      const updatedUser = await this.userRepository.update(id, updateData);
+
+      res.status(200).json({
+        success: true,
+        message: "Profile completed successfully",
+        data: updatedUser?.toJSON(),
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  };
+
+  public uploadAvatar = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+
+      if (!req.file) {
+        res.status(400).json({ success: false, message: "No file uploaded" });
+        return;
+      }
+
+      const avatarUrl = `/uploads/${req.file.filename}`;
+      const updatedUser = await this.userRepository.update(id, { avatar: avatarUrl } as any);
+
+      res.status(200).json({
+        success: true,
+        message: "Avatar uploaded successfully",
+        data: updatedUser?.toJSON(),
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  };
+
+  public searchUsers = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { q, role } = req.query;
+
+      if (!q || typeof q !== "string") {
+        res.status(400).json({ success: false, message: "Search query is required" });
+        return;
+      }
+
+      const filters = role ? { role: role as UserRole } : undefined;
+      const users = await this.userRepository.search(q, filters);
+
+      res.status(200).json({
+        success: true,
+        data: users.map((u) => u.toJSON()),
+        count: users.length,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  };
+
+  public getUsersByRole = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { role } = req.params;
+      const validRoles = ["startup-owner", "investor", "organization", "citizen"];
+
+      if (!validRoles.includes(role)) {
+        res.status(400).json({ success: false, message: "Invalid role" });
+        return;
+      }
+
+      const users = await this.userRepository.findByRole(role as UserRole);
+
+      res.status(200).json({
+        success: true,
+        data: users.map((u) => u.toJSON()),
+        count: users.length,
       });
     } catch (error) {
       res.status(500).json({

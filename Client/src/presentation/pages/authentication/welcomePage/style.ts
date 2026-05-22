@@ -7,7 +7,7 @@ export const Screen = styled.div`
   align-items: center;
   justify-content: center;
   padding: var(--spacing-lg);
-  background: linear-gradient(180deg, var(--color-light) 0%, #e8ecf0 100%);
+  background: var(--gradient-background);
   position: relative;
   overflow: hidden;
 `;

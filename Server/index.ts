@@ -6,7 +6,13 @@ import dotenv from "dotenv";
 import path from "path";
 import userRoutes from "./presentation/routes/user.route";
 import projectRoutes from "./presentation/routes/project.route";
+import commentRoutes from "./presentation/routes/comment.route";
+import projectMemberRoutes from "./presentation/routes/projectMember.route";
+import bookmarkRoutes from "./presentation/routes/bookmark.route";
+import investmentInterestRoutes from "./presentation/routes/investmentInterest.route";
+import notificationRoutes from "./presentation/routes/notification.route";
 import { AppDataSource } from "./infrastructure/database/data-source";
+import { errorHandler } from "./infrastructure/middleware/error.middleware";
 
 dotenv.config();
 
@@ -70,8 +76,16 @@ app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({ status: "OK" });
 });
 
-app.use("/api/users", userRoutes);
-app.use("/api/projects", projectRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1", commentRoutes);
+app.use("/api/v1", projectMemberRoutes);
+app.use("/api/v1/bookmarks", bookmarkRoutes);
+app.use("/api/v1/investments", investmentInterestRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
+
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
 // Initialize database and start server
 AppDataSource.initialize()

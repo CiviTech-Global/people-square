@@ -94,7 +94,7 @@ export class ProjectService {
     }
 
     const response = await apiClient.post<ProjectResponse>(
-      "/api/projects",
+      "/api/v1/projects",
       formData,
       {
         headers: {
@@ -107,19 +107,19 @@ export class ProjectService {
 
   public static async getMyProjects(): Promise<ProjectsResponse> {
     const response = await apiClient.get<ProjectsResponse>(
-      "/api/projects/my-projects"
+      "/api/v1/projects/my-projects"
     );
     return response.data;
   }
 
   public static async getAllProjects(): Promise<ProjectsResponse> {
-    const response = await apiClient.get<ProjectsResponse>("/api/projects");
+    const response = await apiClient.get<ProjectsResponse>("/api/v1/projects");
     return response.data;
   }
 
   public static async getProjectById(id: string): Promise<ProjectResponse> {
     const response = await apiClient.get<ProjectResponse>(
-      `/api/projects/${id}`
+      `/api/v1/projects/${id}`
     );
     return response.data;
   }
@@ -150,7 +150,7 @@ export class ProjectService {
     }
 
     const response = await apiClient.put<ProjectResponse>(
-      `/api/projects/${id}`,
+      `/api/v1/projects/${id}`,
       formData,
       {
         headers: {
@@ -164,13 +164,13 @@ export class ProjectService {
   public static async deleteProject(
     id: string
   ): Promise<{ success: boolean; message: string }> {
-    const response = await apiClient.delete(`/api/projects/${id}`);
+    const response = await apiClient.delete(`/api/v1/projects/${id}`);
     return response.data;
   }
 
   public static async getRegisteredProjects(): Promise<ProjectsResponse> {
     const response = await apiClient.get<ProjectsResponse>(
-      "/api/projects/registered"
+      "/api/v1/projects/registered"
     );
     return response.data;
   }
@@ -179,7 +179,7 @@ export class ProjectService {
     status: string
   ): Promise<ProjectsResponse> {
     const response = await apiClient.get<ProjectsResponse>(
-      `/api/projects/investment-status/${status}`
+      `/api/v1/projects/investment-status/${status}`
     );
     return response.data;
   }
@@ -192,7 +192,7 @@ export class ProjectService {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await apiClient.post("/api/projects/upload", formData, {
+    const response = await apiClient.post("/api/v1/projects/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -201,7 +201,7 @@ export class ProjectService {
   }
 
   public static async deleteFile(filename: string): Promise<void> {
-    await apiClient.delete(`/api/projects/upload/${filename}`);
+    await apiClient.delete(`/api/v1/projects/upload/${filename}`);
   }
 
   public static async downloadFile(
@@ -209,7 +209,7 @@ export class ProjectService {
     originalName: string
   ): Promise<void> {
     const response = await apiClient.get(
-      `/api/projects/file/${fileId}/download`,
+      `/api/v1/projects/file/${fileId}/download`,
       {
         responseType: "blob",
       }

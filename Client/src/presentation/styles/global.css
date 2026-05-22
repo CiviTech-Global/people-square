@@ -88,7 +88,7 @@ p {
 
 /* Links */
 a {
-  color: var(--color-blue);
+  color: var(--color-primary);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -140,7 +140,7 @@ input[type="number"] {
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -312,7 +312,7 @@ html {
    ======================== */
 
 ::selection {
-  background: var(--color-blue);
+  background: var(--color-primary);
   color: var(--color-white);
 }
 

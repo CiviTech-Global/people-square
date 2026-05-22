@@ -7,7 +7,7 @@ export const Screen = styled.div`
   align-items: center;
   justify-content: center;
   padding: var(--spacing-lg);
-  background: linear-gradient(180deg, var(--color-light) 0%, #e8ecf0 100%);
+  background: var(--gradient-background);
   position: relative;
 `;
 
@@ -18,7 +18,9 @@ export const LogoContainer = styled.div`
 `;
 
 export const AuthCard = styled.div`
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(10, 94, 176, 0.1);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl);
   width: 100%;
@@ -44,7 +46,7 @@ export const BackButton = styled.button`
   transition: color var(--transition-fast);
 
   &:hover {
-    color: var(--color-dark);
+    color: var(--color-primary);
   }
 `;
 
@@ -94,7 +96,7 @@ export const AuthSwitch = styled.p`
   button {
     background: none;
     border: none;
-    color: var(--color-dark);
+    color: var(--color-primary);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -111,5 +113,5 @@ export const ColorBar = styled.div`
   left: 0;
   right: 0;
   height: 6px;
-  background: var(--gradient-full);
+  background: var(--gradient-primary);
 `;

@@ -45,6 +45,9 @@ router.get(
   projectController.downloadFile
 );
 
+router.get("/discover", AuthMiddleware.authenticate, projectController.discoverProjects);
+router.get("/trending", AuthMiddleware.authenticate, projectController.getTrendingProjects);
+
 router.get("/:id", AuthMiddleware.authenticate, projectController.getProject);
 router.put(
   "/:id",

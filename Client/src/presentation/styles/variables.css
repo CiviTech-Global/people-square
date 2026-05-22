@@ -1,72 +1,74 @@
-/* People Square - CSS Custom Properties & Design System */
+/* People Square - Ocean Blue Design System */
 :root {
   /* ========================
-     COLOR PALETTE - New Unified Naming
+     COLOR PALETTE
      ======================== */
-  /* Brand Colors */
-  --color-red: #E63946;
-  --color-yellow: #F4B942;
-  --color-green: #2D9E49;
-  --color-blue: #4A90D9;
-  --color-primary: #2D9E49; /* Primary = Green */
+  /* Brand Colors - Ocean Blue */
+  --color-primary: #0A5EB0;
+  --color-primary-dark: #084A8C;
+  --color-primary-light: #1A6FBF;
+  --color-primary-pale: #E8F0FA;
 
-  /* Dark & Light */
-  --color-dark: #1a1a1a;
-  --color-darker: #0f0f0f;
-  --color-light: #f8f9fa;
+  /* Secondary - Sky Blue */
+  --color-secondary: #5BB5F0;
+  --color-secondary-light: #87CEEB;
+  --color-secondary-pale: #D4EDFB;
 
-  /* Gray Scale */
-  --color-gray: #6b7280;
-  --color-gray-light: #e5e7eb;
+  /* Accent - Mint */
+  --color-accent: #2DD4A0;
+  --color-accent-dark: #22B88A;
+  --color-accent-light: #7EECD2;
+  --color-accent-pale: #E0FBF2;
 
-  /* White */
-  --color-white: #ffffff;
-
-  /* Text Colors */
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #6b7280;
-
-  /* Surface Colors */
-  --color-surface: rgba(255, 255, 255, 0.95);
-  --color-surface-glass: rgba(255, 255, 255, 0.05);
-
-  /* Error Colors */
+  /* Semantic */
   --color-error: #E63946;
   --color-error-bg: rgba(230, 57, 70, 0.1);
   --color-error-border: rgba(230, 57, 70, 0.3);
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.1);
+  --color-success: #2DD4A0;
+  --color-success-bg: rgba(45, 212, 160, 0.1);
+  --color-success-border: rgba(45, 212, 160, 0.3);
+  --color-info: #5BB5F0;
+  --color-info-bg: rgba(91, 181, 240, 0.1);
 
-  /* Success Colors */
-  --color-success: #2D9E49;
-  --color-success-bg: rgba(45, 158, 73, 0.1);
-  --color-success-border: rgba(45, 158, 73, 0.3);
+  /* Dark & Light */
+  --color-dark: #1F2937;
+  --color-darker: #111827;
+  --color-light: #F7F9FC;
+
+  /* Gray Scale */
+  --color-gray: #6B7280;
+  --color-gray-light: #E5E7EB;
+  --color-gray-dark: #374151;
+
+  /* White */
+  --color-white: #FFFFFF;
+  --color-off-white: #F7F9FC;
+
+  /* Text Colors */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+
+  /* Surface Colors */
+  --color-surface: rgba(255, 255, 255, 0.85);
+  --color-surface-glass: rgba(255, 255, 255, 0.05);
 
   /* Glassmorphism */
-  --glass-opacity: 0.05;
-  --glass-opacity-hover: 0.08;
-  --glass-blur: 10px;
-  --glass-border: rgba(110, 199, 126, 0.15);
-
-  /* ========================
-     LEGACY COLOR ALIASES (for backward compatibility)
-     ======================== */
-  --ps-red: var(--color-red);
-  --ps-yellow: var(--color-yellow);
-  --ps-green: var(--color-green);
-  --ps-blue: var(--color-blue);
-  --ps-dark: var(--color-dark);
-  --ps-darker: var(--color-darker);
-  --ps-light: var(--color-light);
-  --ps-gray: var(--color-gray);
-  --ps-gray-light: var(--color-gray-light);
-  --ps-white: var(--color-white);
+  --glass-opacity: 0.85;
+  --glass-opacity-hover: 0.92;
+  --glass-blur: 16px;
+  --glass-border: rgba(10, 94, 176, 0.12);
+  --glass-border-focus: rgba(10, 94, 176, 0.3);
 
   /* ========================
      GRADIENTS
      ======================== */
-  --gradient-warm: linear-gradient(135deg, var(--color-red) 0%, var(--color-yellow) 100%);
-  --gradient-cool: linear-gradient(135deg, var(--color-blue) 0%, var(--color-green) 100%);
-  --gradient-full: linear-gradient(135deg, var(--color-red) 0%, var(--color-yellow) 25%, var(--color-green) 75%, var(--color-blue) 100%);
-  --gradient-primary: linear-gradient(135deg, var(--color-primary), #2D9E49);
+  --gradient-primary: linear-gradient(135deg, #0A5EB0 0%, #5BB5F0 100%);
+  --gradient-secondary: linear-gradient(135deg, #5BB5F0 0%, #87CEEB 100%);
+  --gradient-accent: linear-gradient(135deg, #2DD4A0 0%, #5BB5F0 100%);
+  --gradient-hero: linear-gradient(135deg, #0A5EB0 0%, #5BB5F0 50%, #87CEEB 100%);
+  --gradient-background: linear-gradient(180deg, #F7F9FC 0%, #EEF2F7 100%);
 
   /* ========================
      TYPOGRAPHY
@@ -75,7 +77,7 @@
   --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* ========================
-     SPACING SCALE - New Unified Naming
+     SPACING SCALE
      ======================== */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
@@ -84,17 +86,6 @@
   --spacing-xl: 32px;
   --spacing-2xl: 48px;
   --spacing-3xl: 64px;
-
-  /* ========================
-     LEGACY SPACING ALIASES (for backward compatibility)
-     ======================== */
-  --space-xs: var(--spacing-xs);
-  --space-sm: var(--spacing-sm);
-  --space-md: var(--spacing-md);
-  --space-lg: var(--spacing-lg);
-  --space-xl: var(--spacing-xl);
-  --space-2xl: var(--spacing-2xl);
-  --space-3xl: var(--spacing-3xl);
 
   /* ========================
      BORDER RADIUS
@@ -107,13 +98,13 @@
   --radius-full: 9999px;
 
   /* ========================
-     SHADOWS
+     SHADOWS - Ocean Blue tinted
      ======================== */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
-  --shadow-glow: 0 0 20px rgba(74, 144, 217, 0.08);
+  --shadow-sm: 0 1px 2px rgba(10, 94, 176, 0.05);
+  --shadow-md: 0 4px 12px rgba(10, 94, 176, 0.08);
+  --shadow-lg: 0 8px 24px rgba(10, 94, 176, 0.1);
+  --shadow-xl: 0 16px 48px rgba(10, 94, 176, 0.12);
+  --shadow-glow: 0 0 20px rgba(10, 94, 176, 0.15);
 
   /* ========================
      TRANSITIONS
@@ -135,21 +126,17 @@
   --z-tooltip: 700;
 }
 
-/* ========================
-   MEDIA QUERIES VARIABLES
-   ======================== */
 @media (max-width: 768px) {
   :root {
-    --space-xl: 24px;
-    --space-2xl: 32px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 32px;
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --space-lg: 16px;
-    --space-xl: 16px;
-    --space-2xl: 24px;
+    --spacing-lg: 16px;
+    --spacing-xl: 16px;
+    --spacing-2xl: 24px;
   }
 }
-

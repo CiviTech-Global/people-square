@@ -7,16 +7,18 @@ export const Screen = styled.div`
   align-items: center;
   justify-content: center;
   padding: var(--spacing-lg);
-  background: linear-gradient(180deg, var(--color-light) 0%, #e8ecf0 100%);
+  background: var(--gradient-background);
   position: relative;
 `;
 
 export const AuthCard = styled.div`
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(10, 94, 176, 0.1);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-2xl);
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   box-shadow: var(--shadow-lg);
   position: relative;
   z-index: 1;
@@ -38,7 +40,7 @@ export const BackButton = styled.button`
   transition: color var(--transition-fast);
 
   &:hover {
-    color: var(--color-dark);
+    color: var(--color-primary);
   }
 `;
 
@@ -57,7 +59,7 @@ export const AuthHeader = styled.div`
     font-family: var(--font-display);
     font-size: 1.75rem;
     font-weight: 700;
-    color: var(--color-dark);
+    color: var(--color-darker);
     margin-top: var(--spacing-md);
     letter-spacing: -0.02em;
   }
@@ -85,6 +87,75 @@ export const ErrorAlert = styled.div`
   line-height: 1.5;
 `;
 
+export const StepIndicator = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+`;
+
+export const StepDot = styled.div<{ $active?: boolean; $completed?: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+  background: ${(p) =>
+    p.$active
+      ? 'var(--color-primary)'
+      : p.$completed
+      ? 'var(--color-accent)'
+      : 'var(--color-gray-light)'};
+  transform: ${(p) => (p.$active ? 'scale(1.2)' : 'scale(1)')};
+`;
+
+export const RoleGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+`;
+
+export const RoleCard = styled.button<{ $selected?: boolean }>`
+  background: ${(p) =>
+    p.$selected ? 'rgba(10, 94, 176, 0.08)' : 'var(--color-white)'};
+  border: 2px solid
+    ${(p) => (p.$selected ? 'var(--color-primary)' : 'var(--color-gray-light)')};
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-sm);
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  svg {
+    color: ${(p) =>
+      p.$selected ? 'var(--color-primary)' : 'var(--color-gray)'};
+    width: 32px;
+    height: 32px;
+  }
+
+  span {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: ${(p) =>
+      p.$selected ? 'var(--color-primary)' : 'var(--color-dark)'};
+  }
+
+  small {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+  }
+`;
+
 export const TermsCheck = styled.div`
   display: flex;
   align-items: flex-start;
@@ -97,7 +168,7 @@ export const TermsCheck = styled.div`
     width: 18px;
     height: 18px;
     margin-top: 2px;
-    accent-color: var(--color-dark);
+    accent-color: var(--color-primary);
     cursor: pointer;
   }
 
@@ -106,7 +177,7 @@ export const TermsCheck = styled.div`
   }
 
   a {
-    color: var(--color-dark);
+    color: var(--color-primary);
     text-decoration: none;
 
     &:hover {
@@ -151,7 +222,7 @@ export const AuthSwitch = styled.p`
   button {
     background: none;
     border: none;
-    color: var(--color-dark);
+    color: var(--color-primary);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -160,13 +231,4 @@ export const AuthSwitch = styled.p`
       text-decoration: underline;
     }
   }
-`;
-
-export const ColorBar = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: var(--gradient-full);
 `;

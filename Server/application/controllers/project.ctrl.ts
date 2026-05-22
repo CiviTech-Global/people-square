@@ -568,6 +568,88 @@ export class ProjectController {
     }
   };
 
+  public discoverProjects = async (
+    req: AuthRequest,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+      const category = req.query.category as string | undefined;
+      const stage = req.query.stage as string | undefined;
+      const investmentStatus = req.query.investmentStatus as string | undefined;
+      const search = req.query.search as string | undefined;
+
+      const { projects, total } = await this.projectRepository.findAllPaginated(
+        page,
+        limit,
+        { category, stage, investmentStatus, search }
+      );
+
+      const projectsWithFiles = await Promise.all(
+        projects.map(async (project) => {
+          const files = await this.projectFileRepository.findByProjectId(
+            project.id
+          );
+          return {
+            ...project.toJSON(),
+            files: files.map((f) => f.toJSON()),
+          };
+        })
+      );
+
+      res.status(200).json({
+        success: true,
+        data: projectsWithFiles,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  };
+
+  public getTrendingProjects = async (
+    req: AuthRequest,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const projects = await this.projectRepository.findTrending(limit);
+
+      const projectsWithFiles = await Promise.all(
+        projects.map(async (project) => {
+          const files = await this.projectFileRepository.findByProjectId(
+            project.id
+          );
+          return {
+            ...project.toJSON(),
+            files: files.map((f) => f.toJSON()),
+          };
+        })
+      );
+
+      res.status(200).json({
+        success: true,
+        data: projectsWithFiles,
+        count: projectsWithFiles.length,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  };
+
   public downloadFile = async (
     req: AuthRequest,
     res: Response

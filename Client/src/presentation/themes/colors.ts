@@ -1,52 +1,117 @@
-export const gradients = {
-  primary: "linear-gradient(135deg, #F4E869 0%, #B8D96A 25%, #6EC77E 50%, #48B894 75%, #3AA693 100%)",
-  secondary: "linear-gradient(135deg, #E8F5C8 0%, #A8D99C 50%, #6EC77E 100%)",
-  tertiary: "linear-gradient(135deg, #2D5F4F 0%, #1E453A 100%)",
-  yellowGreen: "linear-gradient(to right, #F4E869 0%, #6EC77E 100%)",
-  lightGreen: "linear-gradient(135deg, #E8F5C8 0%, #C4E4B8 100%)",
-  darkGreen: "linear-gradient(135deg, #34685A 0%, #2A5148 100%)",
+// People Square - Ocean Blue Design System
+// 55% White | 25% Ocean Blue | 15% Sky Blue | 5% Mint Accent
+
+export const palette = {
+  // 55% - White family
+  white: "#FFFFFF",
+  offWhite: "#F7F9FC",
+  lightGray: "#EEF2F7",
+
+  // 25% - Ocean Blue family
+  oceanBlue: "#0A5EB0",
+  oceanBlueDark: "#084A8C",
+  oceanBlueLight: "#1A6FBF",
+  oceanBluePale: "#E8F0FA",
+
+  // 15% - Sky Blue family
+  skyBlue: "#5BB5F0",
+  skyBlueLight: "#87CEEB",
+  skyBluePale: "#D4EDFB",
+
+  // 5% - Mint accent
+  mint: "#2DD4A0",
+  mintDark: "#22B88A",
+  mintLight: "#7EECD2",
+  mintPale: "#E0FBF2",
+
+  // Gray scale
+  gray50: "#F9FAFB",
+  gray100: "#F3F4F6",
+  gray200: "#E5E7EB",
+  gray300: "#D1D5DB",
+  gray400: "#9CA3AF",
+  gray500: "#6B7280",
+  gray600: "#4B5563",
+  gray700: "#374151",
+  gray800: "#1F2937",
+  gray900: "#111827",
+
+  // Semantic
+  error: "#E63946",
+  errorLight: "#FEE2E2",
+  warning: "#F59E0B",
+  warningLight: "#FEF3C7",
+  success: "#2DD4A0",
+  successLight: "#E0FBF2",
+  info: "#5BB5F0",
+  infoLight: "#D4EDFB",
 } as const;
 
 export const colors = {
   primary: {
-    main: "#6EC77E",
-    light: "#A8D99C",
-    dark: "#2D5F4F",
-    lighter: "#E8F5C8",
+    main: palette.oceanBlue,
+    light: palette.oceanBlueLight,
+    dark: palette.oceanBlueDark,
+    lighter: palette.oceanBluePale,
+  },
+  secondary: {
+    main: palette.skyBlue,
+    light: palette.skyBlueLight,
+    pale: palette.skyBluePale,
   },
   accent: {
-    yellow: "#F4E869",
-    green: "#6EC77E",
-    darkGreen: "#2D5F4F",
+    main: palette.mint,
+    dark: palette.mintDark,
+    light: palette.mintLight,
+    pale: palette.mintPale,
   },
   text: {
-    primary: "#1E453A",
-    secondary: "#5A7266",
+    primary: palette.gray900,
+    secondary: palette.gray500,
     light: "#ffffff",
-    muted: "#8FA599",
+    muted: palette.gray400,
   },
   background: {
-    white: "#ffffff",
-    lightGreen: "#F5FAF3",
-    card: "#ffffff",
+    white: palette.white,
+    offWhite: palette.offWhite,
+    light: palette.lightGray,
+    card: palette.white,
   },
 } as const;
 
 export const glassColors = {
-  cardBackground: "rgba(255, 255, 255, 0.95)",
-  cardBorder: "rgba(110, 199, 126, 0.2)",
-  buttonBackground: "linear-gradient(to right, #B8D96A 0%, #6EC77E 100%)",
-  buttonBackgroundHover: "linear-gradient(to right, #A8D99C 0%, #5FB870 100%)",
-  buttonBorder: "rgba(110, 199, 126, 0.3)",
-  textPrimary: "#1E453A",
-  textSecondary: "#5A7266",
+  cardBackground: "rgba(255, 255, 255, 0.85)",
+  cardBorder: "rgba(10, 94, 176, 0.12)",
+  sidebarBackground: "rgba(255, 255, 255, 0.92)",
+  modalBackground: "rgba(255, 255, 255, 0.95)",
+  inputBackground: "rgba(255, 255, 255, 0.8)",
+  buttonBackground: "linear-gradient(135deg, #0A5EB0 0%, #5BB5F0 100%)",
+  buttonBackgroundHover: "linear-gradient(135deg, #084A8C 0%, #4AA4E0 100%)",
+  buttonBorder: "rgba(10, 94, 176, 0.15)",
+  textPrimary: palette.gray900,
+  textSecondary: palette.gray500,
   textButton: "#ffffff",
 } as const;
 
 export const shadows = {
-  card: "0 10px 40px rgba(110, 199, 126, 0.15)",
-  button: "0 4px 15px rgba(110, 199, 126, 0.3)",
-  buttonHover: "0 6px 20px rgba(110, 199, 126, 0.4)",
+  card: "0 10px 40px rgba(10, 94, 176, 0.08)",
+  cardHover: "0 16px 48px rgba(10, 94, 176, 0.14)",
+  button: "0 4px 15px rgba(10, 94, 176, 0.2)",
+  buttonHover: "0 6px 20px rgba(10, 94, 176, 0.3)",
   text: "none",
-  input: "0 2px 8px rgba(110, 199, 126, 0.1)",
+  input: "0 2px 8px rgba(10, 94, 176, 0.06)",
+  inputFocus: "0 4px 12px rgba(10, 94, 176, 0.12)",
+  sidebar: "4px 0 24px rgba(10, 94, 176, 0.06)",
+  modal: "0 24px 64px rgba(10, 94, 176, 0.15)",
+  dropdown: "0 8px 32px rgba(10, 94, 176, 0.12)",
+} as const;
+
+export const gradients = {
+  primary: "linear-gradient(135deg, #0A5EB0 0%, #5BB5F0 100%)",
+  secondary: "linear-gradient(135deg, #5BB5F0 0%, #87CEEB 100%)",
+  accent: "linear-gradient(135deg, #2DD4A0 0%, #5BB5F0 100%)",
+  hero: "linear-gradient(135deg, #0A5EB0 0%, #5BB5F0 50%, #87CEEB 100%)",
+  background: "linear-gradient(180deg, #F7F9FC 0%, #EEF2F7 100%)",
+  sidebar: "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(247,249,252,0.95) 100%)",
+  dark: "linear-gradient(135deg, #084A8C 0%, #0A5EB0 100%)",
 } as const;

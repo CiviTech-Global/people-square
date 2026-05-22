@@ -1,4 +1,4 @@
-import { Repository, IsNull } from "typeorm";
+import { Repository, IsNull, ILike, FindOptionsWhere } from "typeorm";
 import { Project } from "../../domain/project/project.entity";
 import { AppDataSource } from "../database/data-source";
 
@@ -74,5 +74,78 @@ export class ProjectRepository {
       relations: ["owner"],
       order: { createdAt: "DESC" },
     });
+  }
+
+  async findAllPaginated(
+    page: number,
+    limit: number,
+    filters: {
+      category?: string;
+      stage?: string;
+      investmentStatus?: string;
+      search?: string;
+      tags?: string[];
+    }
+  ): Promise<{ projects: Project[]; total: number }> {
+    const where: FindOptionsWhere<Project> = { deletedAt: IsNull() };
+
+    if (filters.category) {
+      where.category = filters.category;
+    }
+    if (filters.stage) {
+      where.stage = filters.stage as any;
+    }
+    if (filters.investmentStatus) {
+      where.investmentStatus = filters.investmentStatus as any;
+    }
+
+    const queryBuilder = this.repository
+      .createQueryBuilder("project")
+      .leftJoinAndSelect("project.owner", "owner")
+      .where("project.deletedAt IS NULL");
+
+    if (filters.category) {
+      queryBuilder.andWhere("project.category = :category", { category: filters.category });
+    }
+    if (filters.stage) {
+      queryBuilder.andWhere("project.stage = :stage", { stage: filters.stage });
+    }
+    if (filters.investmentStatus) {
+      queryBuilder.andWhere("project.investmentStatus = :investmentStatus", {
+        investmentStatus: filters.investmentStatus,
+      });
+    }
+    if (filters.search) {
+      queryBuilder.andWhere(
+        "(project.title ILIKE :search OR project.description ILIKE :search)",
+        { search: `%${filters.search}%` }
+      );
+    }
+    if (filters.tags && filters.tags.length > 0) {
+      queryBuilder.andWhere("project.tags LIKE :tags", {
+        tags: `%${filters.tags.join("%")}%`,
+      });
+    }
+
+    queryBuilder
+      .orderBy("project.createdAt", "DESC")
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const [projects, total] = await queryBuilder.getManyAndCount();
+    return { projects, total };
+  }
+
+  async findTrending(limit: number): Promise<Project[]> {
+    return await this.repository.find({
+      where: { deletedAt: IsNull() },
+      relations: ["owner"],
+      order: { viewCount: "DESC" },
+      take: limit,
+    });
+  }
+
+  async incrementViewCount(id: string): Promise<void> {
+    await this.repository.increment({ id }, "viewCount", 1);
   }
 }

@@ -23,8 +23,8 @@ export const InputWrapper = styled.div<InputWrapperProps>`
   overflow: hidden;
 
   &:focus-within {
-    border-color: ${(props) => (props.error ? 'var(--color-error)' : 'var(--color-blue)')};
-    box-shadow: 0 0 0 3px ${(props) => (props.error ? 'rgba(230, 57, 70, 0.1)' : 'rgba(74, 144, 217, 0.1)')};
+    border-color: ${(props) => (props.error ? 'var(--color-error)' : 'var(--color-primary)')};
+    box-shadow: 0 0 0 3px ${(props) => (props.error ? 'rgba(230, 57, 70, 0.1)' : 'rgba(10, 94, 176, 0.12)')};
   }
 
   &:hover:not(:focus-within) {

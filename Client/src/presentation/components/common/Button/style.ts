@@ -131,7 +131,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 

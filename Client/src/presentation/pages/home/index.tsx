@@ -1,241 +1,127 @@
-import { useState, useEffect, useRef } from "react";
-import { LogOut, User, Plus, FileText, ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Sidebar, GlassAppBar, ProjectDetailsModal } from "../../components";
-import { useAuth } from "../../../application/context/AuthContext";
-import {
-  ProjectService,
-  type Project,
-} from "../../../infrastructure/api/project.service";
-import {
-  HomeContainer,
-  ContentWrapper,
-  HeaderSection,
-  ProjectsSection,
-  SectionHeader,
-  ActionsDropdown,
-  ActionsDropdownButton,
-  ActionsDropdownMenu,
-  ActionsDropdownItem,
-  ProjectsGrid,
-  ProjectCard,
-  ProjectTitle,
-  ProjectDescription,
-  ChipsContainer,
-  Chip,
-  ViewDetailsButton,
-  EmptyState,
-  CreateButton,
-  LoadingText,
-  ProfileMenu,
-  ProfileMenuItem,
-  AppBarActionsContainer,
-  IconButtonStyled,
-} from "./style";
+import { useState, useEffect } from 'react';
+import { FolderOpen, Eye, TrendingUp, Bookmark } from 'lucide-react';
+import { AppShell } from '../../components';
+import { StatCard, ProjectCarousel, QuickActions } from '../../components/dashboard';
+import { useAuth } from '../../../application/context/AuthContext';
+import { ProjectService, type Project } from '../../../infrastructure/api/project.service';
+import styled from 'styled-components';
+
+const WelcomeSection = styled.div`
+  margin-bottom: var(--spacing-2xl);
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin: 0 0 4px;
+  }
+
+  p {
+    font-size: 1rem;
+    color: var(--color-gray);
+    margin: 0 0 var(--spacing-lg);
+  }
+`;
+
+const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0 0 var(--spacing-lg);
+`;
+
+const Section = styled.div`
+  margin-bottom: var(--spacing-2xl);
+`;
 
 const HomePage = () => {
-  const navigate = useNavigate();
-  const { logout, user } = useAuth();
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [projects, setProjects] = useState<Project[]>([]);
+  const { user } = useAuth();
+  const [myProjects, setMyProjects] = useState<Project[]>([]);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [showActionsMenu, setShowActionsMenu] = useState(false);
-  const actionsMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (user?.role === "startup-owner") {
-      loadProjects();
-    } else {
-      setLoading(false);
-    }
+    loadData();
   }, [user]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        actionsMenuRef.current &&
-        !actionsMenuRef.current.contains(event.target as Node)
-      ) {
-        setShowActionsMenu(false);
-      }
-    };
-
-    if (showActionsMenu) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showActionsMenu]);
-
-  const loadProjects = async () => {
+  const loadData = async () => {
     try {
-      const response = await ProjectService.getMyProjects();
-      setProjects(response.data);
-    } catch (error) {
-      console.error("Failed to load projects:", error);
+      setLoading(true);
+      const [allRes] = await Promise.all([
+        ProjectService.getAllProjects(),
+      ]);
+      setAllProjects(allRes.data);
+
+      if (user?.role === 'startup-owner') {
+        const myRes = await ProjectService.getMyProjects();
+        setMyProjects(myRes.data);
+      }
+    } catch {
+      // silent fail
     } finally {
       setLoading(false);
     }
   };
 
-  const handleProfileClick = () => {
-    setShowProfileMenu(false);
-    navigate("/settings");
-  };
-
-  const handleLogout = () => {
-    setShowProfileMenu(false);
-    logout();
-    navigate("/login");
-  };
-
-  const handleViewDetails = (project: Project) => {
-    setSelectedProject(project);
-    setDetailsOpen(true);
-  };
-
-  const handleCloseDetails = () => {
-    setDetailsOpen(false);
-    setSelectedProject(null);
-  };
-
-  const getInvestmentStatusLabel = (status: string) => {
-    switch (status) {
-      case "self-sponsored":
-        return "Self Sponsored";
-      case "looking-for-first-sponsor":
-        return "Looking for First Sponsor";
-      case "looking-for-more-sponsors":
-        return "Looking for More Sponsors";
-      default:
-        return status;
-    }
-  };
+  const sponsorProjects = allProjects.filter(
+    p => p.investmentStatus === 'looking-for-first-sponsor' || p.investmentStatus === 'looking-for-more-sponsors'
+  );
 
   return (
-    <HomeContainer>
-      <Sidebar />
-      <ContentWrapper>
-        <GlassAppBar title="Dashboard">
-          <AppBarActionsContainer>
-            <IconButtonStyled
-              onClick={() => setShowProfileMenu(!showProfileMenu)}
-              title="Profile"
-            >
-              <User />
-            </IconButtonStyled>
-            <IconButtonStyled onClick={handleLogout} title="Logout">
-              <LogOut />
-            </IconButtonStyled>
-            {showProfileMenu && (
-              <ProfileMenu>
-                <ProfileMenuItem onClick={handleProfileClick}>
-                  <User size={20} />
-                  Profile Settings
-                </ProfileMenuItem>
-                <ProfileMenuItem onClick={handleLogout}>
-                  <LogOut size={20} />
-                  Logout
-                </ProfileMenuItem>
-              </ProfileMenu>
-            )}
-          </AppBarActionsContainer>
-        </GlassAppBar>
+    <AppShell title="Dashboard">
+      <WelcomeSection>
+        <h1>Welcome back, {user?.fullName?.split(' ')[0] || 'User'}!</h1>
+        <p>Here's what's happening in People Square</p>
+        <QuickActions role={user?.role} />
+      </WelcomeSection>
 
-        <HeaderSection>
-          <h1>Welcome back, {user?.fullName || "User"}!</h1>
-          <p>Manage your projects and track your progress</p>
-        </HeaderSection>
+      {user?.role === 'startup-owner' && (
+        <>
+          <StatsGrid>
+            <StatCard icon={<FolderOpen size={24} />} label="My Projects" value={myProjects.length} />
+            <StatCard icon={<Eye size={24} />} label="Total Views" value={myProjects.reduce((a, p) => a + ((p as any).viewCount || 0), 0)} color="rgba(91, 181, 240, 0.12)" />
+          </StatsGrid>
+          <Section>
+            <SectionTitle>My Projects</SectionTitle>
+            <ProjectCarousel projects={myProjects.slice(0, 6)} emptyText="Create your first project to get started!" />
+          </Section>
+        </>
+      )}
 
-        {user?.role === "startup-owner" && (
-          <ProjectsSection>
-            <SectionHeader>
-              <h2>Applicants waiting for you ({projects.length})</h2>
-              <ActionsDropdown ref={actionsMenuRef}>
-                <ActionsDropdownButton
-                  onClick={() => setShowActionsMenu(!showActionsMenu)}
-                >
-                  <Plus size={20} />
-                  Actions
-                  <ChevronDown size={18} />
-                </ActionsDropdownButton>
-                {showActionsMenu && (
-                  <ActionsDropdownMenu>
-                    <ActionsDropdownItem
-                      onClick={() => {
-                        navigate("/my-projects");
-                        setShowActionsMenu(false);
-                      }}
-                    >
-                      <Plus size={18} />
-                      Add new project
-                    </ActionsDropdownItem>
-                  </ActionsDropdownMenu>
-                )}
-              </ActionsDropdown>
-            </SectionHeader>
+      {user?.role === 'investor' && (
+        <>
+          <StatsGrid>
+            <StatCard icon={<TrendingUp size={24} />} label="Projects Available" value={sponsorProjects.length} />
+            <StatCard icon={<Bookmark size={24} />} label="Saved" value={0} color="rgba(45, 212, 160, 0.12)" />
+          </StatsGrid>
+          <Section>
+            <SectionTitle>Projects Seeking Investment</SectionTitle>
+            <ProjectCarousel projects={sponsorProjects.slice(0, 6)} emptyText="No projects seeking investment right now" />
+          </Section>
+        </>
+      )}
 
-            {loading ? (
-              <LoadingText>Loading projects...</LoadingText>
-            ) : projects.length === 0 ? (
-              <EmptyState>
-                <h3>No projects yet</h3>
-                <p>
-                  Create your first project to get started with People Square
-                </p>
-                <CreateButton onClick={() => navigate("/my-projects")}>
-                  Create Your First Project
-                </CreateButton>
-              </EmptyState>
-            ) : (
-              <ProjectsGrid>
-                {projects.slice(0, 6).map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    onClick={() => handleViewDetails(project)}
-                  >
-                    <ProjectTitle>{project.title}</ProjectTitle>
-                    <ProjectDescription>
-                      {project.description}
-                    </ProjectDescription>
-                    <ChipsContainer>
-                      <Chip>
-                        {getInvestmentStatusLabel(project.investmentStatus)}
-                      </Chip>
-                      {project.isRegistered && <Chip>Registered</Chip>}
-                      {project.files && project.files.length > 0 && (
-                        <Chip>
-                          <FileText size={14} />
-                          {project.files.length} file
-                          {project.files.length > 1 ? "s" : ""}
-                        </Chip>
-                      )}
-                    </ChipsContainer>
-                    <ViewDetailsButton
-                      onClick={() => handleViewDetails(project)}
-                    >
-                      View Details
-                    </ViewDetailsButton>
-                  </ProjectCard>
-                ))}
-              </ProjectsGrid>
-            )}
-          </ProjectsSection>
-        )}
-      </ContentWrapper>
+      {(user?.role === 'organization' || user?.role === 'citizen') && (
+        <>
+          <StatsGrid>
+            <StatCard icon={<FolderOpen size={24} />} label="Total Projects" value={allProjects.length} />
+            <StatCard icon={<TrendingUp size={24} />} label="Seeking Sponsors" value={sponsorProjects.length} color="rgba(91, 181, 240, 0.12)" />
+          </StatsGrid>
+        </>
+      )}
 
-      {/* Project Details Modal */}
-      <ProjectDetailsModal
-        open={detailsOpen}
-        project={selectedProject}
-        onClose={handleCloseDetails}
-        showActions={false}
-      />
-    </HomeContainer>
+      <Section>
+        <SectionTitle>Recent Projects</SectionTitle>
+        <ProjectCarousel projects={allProjects.slice(0, 8)} emptyText="No projects yet" />
+      </Section>
+    </AppShell>
   );
 };
 

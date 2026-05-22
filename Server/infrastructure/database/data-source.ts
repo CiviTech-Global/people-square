@@ -2,6 +2,11 @@ import { DataSource } from "typeorm";
 import { User } from "../../domain/user/user.entity";
 import { Project } from "../../domain/project/project.entity";
 import { ProjectFile } from "../../domain/projectFile/projectFile.entity";
+import { Comment } from "../../domain/comment/comment.entity";
+import { ProjectMember } from "../../domain/projectMember/projectMember.entity";
+import { Bookmark } from "../../domain/bookmark/bookmark.entity";
+import { InvestmentInterest } from "../../domain/investment/investmentInterest.entity";
+import { Notification } from "../../domain/notification/notification.entity";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -15,7 +20,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || "people_square",
   synchronize: process.env.NODE_ENV !== "production",
   logging: false,
-  entities: [User, Project, ProjectFile],
+  entities: [User, Project, ProjectFile, Comment, ProjectMember, Bookmark, InvestmentInterest, Notification],
   migrations: ["src/infrastructure/database/migrations/*.ts"],
   subscribers: [],
 });

@@ -23,8 +23,8 @@ export const StyledCodeInput = styled.input`
   outline: none;
 
   &:focus {
-    border-color: var(--color-blue);
-    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.1);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(10, 94, 176, 0.12);
     background: var(--color-white);
   }
 

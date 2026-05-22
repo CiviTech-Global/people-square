@@ -40,7 +40,7 @@ export interface ResetPasswordData {
 export class AuthService {
   public static async register(data: RegisterData): Promise<AuthResponse> {
     const response = await apiClient.post<AuthResponse>(
-      "/api/users/register",
+      "/api/v1/users/register",
       data
     );
     return response.data;
@@ -48,19 +48,19 @@ export class AuthService {
 
   public static async login(data: LoginData): Promise<AuthResponse> {
     const response = await apiClient.post<AuthResponse>(
-      "/api/users/login",
+      "/api/v1/users/login",
       data
     );
     return response.data;
   }
 
   public static async forgotPassword(data: ForgotPasswordData): Promise<any> {
-    const response = await apiClient.post("/api/users/forgot-password", data);
+    const response = await apiClient.post("/api/v1/users/forgot-password", data);
     return response.data;
   }
 
   public static async resetPassword(data: ResetPasswordData): Promise<any> {
-    const response = await apiClient.post("/api/users/reset-password", data);
+    const response = await apiClient.post("/api/v1/users/reset-password", data);
     return response.data;
   }
 
